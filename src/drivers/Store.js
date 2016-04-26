@@ -101,6 +101,19 @@ class Store {
         return this.driver.length;
     }
 
+    /**
+     * Determine whether the storage driver is supported.
+     *
+     * @return  {Boolean}
+     */
+    isSupported () {
+        try {
+            return !! typeof this.driver !== 'undefined' && ('setItem' in this.driver) && this.driver.setItem;
+        } catch (e) {
+            return false;
+        }
+    }
+
 }
 
 export default Store;
