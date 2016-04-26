@@ -20,6 +20,7 @@
     "lint": "eslint src test",
     "docs": "jsdoc --configure .jsdoc.json --verbose",
     "docs:open": "npm run docs && open docs/$npm_package_name/$npm_package_version/index.html",
+    "gh-pages": "github-pages -r tymondesigns/locker",
     "prepublish": "npm run build",
     "release": "NODE_ENV=production npm run build && npm test && git add -A && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish"
   },
@@ -44,6 +45,7 @@
     "babel-runtime": "^6.5.0",
     "eslint": "^1.10.3",
     "eslint-plugin-babel": "^3.2.0",
+    "github-pages": "^3.0.2",
     "gzip-size-cli": "^1.0.0",
     "jsdoc": "^3.4.0",
     "minami": "^1.1.1",
@@ -81,5 +83,8 @@
       "babel-core/register"
     ],
     "babel": "inherit"
+  },
+  "github-pages": {
+    "src": "./docs/$npm_package_name/$npm_package_version"
   }
 }

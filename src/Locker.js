@@ -220,7 +220,7 @@ class Locker {
     }
 
     /**
-     * Get he storage driver instance.
+     * Get the storage driver instance.
      *
      * @return {Storage}
      */
