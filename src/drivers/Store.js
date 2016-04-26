@@ -93,15 +93,6 @@ class Store {
     }
 
     /**
-     * Get the number of items in storage.
-     *
-     * @return  {Integer}
-     */
-    get length () {
-        return this.driver.length;
-    }
-
-    /**
      * Determine whether the storage driver is supported.
      *
      * @return  {Boolean}
@@ -112,6 +103,15 @@ class Store {
         } catch (e) {
             return false;
         }
+    }
+
+    /**
+     * Get the number of items in storage.
+     *
+     * @return  {Integer}
+     */
+    get length () {
+        return this.driver.length;
     }
 
 }

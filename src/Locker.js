@@ -47,7 +47,13 @@ class Locker {
                 throw new Error(`Driver "${driver}" not available.`);
             }
 
-            return new Store(this._registeredDrivers[driver]);
+            let store = new Store(this._registeredDrivers[driver]);
+
+            if (! store.isSupported()) {
+                throw new Error(`Driver "${driver}" not supported.`);
+            }
+
+            return store;
         })(options.driver);
 
         /**
@@ -67,30 +73,12 @@ class Locker {
     }
 
     /**
-     * The storage driver itself.
+     * Get the configuration options.
      *
-     * @type {Store}
+     * @return  {Object}
      */
-    get driver () {
-        return this._driver;
-    }
-
-    /**
-     * The storage namespace.
-     *
-     * @type {String}
-     */
-    get namespace () {
-        return this.opts.namespace;
-    }
-
-    /**
-     * The namespace separator.
-     *
-     * @type {String}
-     */
-    get separator () {
-        return this.opts.separator;
+    get options () {
+        return this.opts;
     }
 
     /**
@@ -111,11 +99,11 @@ class Locker {
         if (check.isObject(key)) {
             for (let item in key) {
                 let v = value(key[item]);
-                this.driver.setItem(this._getKey(item), check.isUndefined(v) ? def : v);
+                this._driver.setItem(this._getKey(item), check.isUndefined(v) ? def : v);
             }
         } else {
             if (check.isUndefined(val)) throw new Error('You must specify a value.');
-            this.driver.setItem(
+            this._driver.setItem(
                 this._getKey(key),
                 value(val, this.get(key, def))
             );
@@ -165,7 +153,7 @@ class Locker {
 
         if (! this.has(key)) return arguments.length === 2 ? def : void 0;
 
-        return this.driver.getItem(this._getKey(key));
+        return this._driver.getItem(this._getKey(key));
     }
 
     /**
@@ -176,7 +164,7 @@ class Locker {
      * @return {Boolean}
      */
     has (key) {
-        return this.driver.hasItem(value(this._getKey(key)));
+        return this._driver.hasItem(value(this._getKey(key)));
     }
 
     /**
@@ -192,10 +180,70 @@ class Locker {
         if (check.isArray(key)) {
             key.map(this.forget, this);
         } else {
-            this.driver.removeItem(this._getKey(key));
+            this._driver.removeItem(this._getKey(key));
         }
 
         return this;
+    }
+
+    /**
+     * Set the driver by key.
+     *
+     * @param   {String}  driver  The driver key
+     *
+     * @return  {Locker}
+     */
+    driver (driver) {
+        return Locker.make(Object.assign(this.opts, { driver }));
+    }
+
+    /**
+     * Set the namespace.
+     *
+     * @param   {String}  namespace  The namespace
+     *
+     * @return  {Locker}
+     */
+    namespace (namespace) {
+        return Locker.make(Object.assign(this.opts, { namespace }));
+    }
+
+    /**
+     * Create a new instance of Locker.
+     *
+     * @param   {Object}  options  The configuration options
+     *
+     * @return  {Locker}
+     */
+    static make (options) {
+        return new Locker(options);
+    }
+
+    /**
+     * Get he storage driver instance.
+     *
+     * @return {Storage}
+     */
+    getDriver () {
+        return this._driver;
+    }
+
+    /**
+     * Get the storage namespace.
+     *
+     * @return {String}
+     */
+    getNamespace () {
+        return this.opts.namespace;
+    }
+
+    /**
+     * Get the namespace separator.
+     *
+     * @return {String}
+     */
+    getSeparator () {
+        return this.opts.separator;
     }
 
 }
