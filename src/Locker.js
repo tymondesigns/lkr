@@ -89,6 +89,31 @@ class Locker {
      *
      * @throws {Error}  If a key or value is not provided
      *
+     * @example
+     * // Any data type is accepted
+     * locker.put('foo', 'bar');
+     * locker.put('baz', ['bob', 'jim']);
+     *
+     * // Or you can pass an object,
+     * // which will add each key/value pair separately
+     * locker.put({ foo: 'bar', baz: 'bob' });
+     *
+     * // Passing a function as the key and/or value.
+     * // Note that the current value of the key will be passed
+     * // to the function that set's the value
+     * locker.put('foo', (currentVal) => {
+     *     let data = currentVal + 1;
+     *     return { data };
+     * });
+     *
+     * locker.put(() => {
+     *     // do some stuff
+     *     return 'baz';
+     * }, () => {
+     *     // do some stuff
+     *     return 'bob';
+     * });
+     *
      * @return {Locker}
      */
     put (key, val, def) {
