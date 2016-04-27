@@ -36,13 +36,13 @@ class Locker {
         this._registeredDrivers = Object.assign({}, options.drivers);
 
         /**
-         * The driver instance
+         * The Store instance
          *
          * @private
          *
          * @type {Store}
          */
-        this._driver = (driver => {
+        this._store = (driver => {
             if (! Object.keys(this._registeredDrivers).length || ! this._registeredDrivers.hasOwnProperty(driver)) {
                 throw new Error(`Driver "${driver}" not available.`);
             }
@@ -99,11 +99,11 @@ class Locker {
         if (check.isObject(key)) {
             for (let item in key) {
                 let v = value(key[item]);
-                this._driver.setItem(this._getKey(item), check.isUndefined(v) ? def : v);
+                this._store.setItem(this._getKey(item), check.isUndefined(v) ? def : v);
             }
         } else {
             if (check.isUndefined(val)) throw new Error('You must specify a value.');
-            this._driver.setItem(
+            this._store.setItem(
                 this._getKey(key),
                 value(val, this.get(key, def))
             );
@@ -153,7 +153,7 @@ class Locker {
 
         if (! this.has(key)) return arguments.length === 2 ? def : void 0;
 
-        return this._driver.getItem(this._getKey(key));
+        return this._store.getItem(this._getKey(key));
     }
 
     /**
@@ -164,7 +164,7 @@ class Locker {
      * @return {Boolean}
      */
     has (key) {
-        return this._driver.hasItem(value(this._getKey(key)));
+        return this._store.hasItem(value(this._getKey(key)));
     }
 
     /**
@@ -180,7 +180,7 @@ class Locker {
         if (check.isArray(key)) {
             key.map(this.forget, this);
         } else {
-            this._driver.removeItem(this._getKey(key));
+            this._store.removeItem(this._getKey(key));
         }
 
         return this;
@@ -222,10 +222,10 @@ class Locker {
     /**
      * Get the storage driver instance.
      *
-     * @return {Storage}
+     * @return {Store}
      */
-    getDriver () {
-        return this._driver;
+    getStore () {
+        return this._store;
     }
 
     /**
