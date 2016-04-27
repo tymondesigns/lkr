@@ -1,4 +1,3 @@
-// import { check, value } from './utils';
 import check from './utils/check';
 import value from './utils/value';
 import Store from './drivers/Store';

@@ -28,16 +28,16 @@ test('it should instantiate the class', t => {
 test('it should put an item into storage', t => {
     t.context.locker.put('foo', 'bar');
 
-    t.is(t.context.locker.getDriver().getItem('locker.foo'), 'bar');
-    t.is(t.context.locker.getDriver().length, 1);
+    t.is(t.context.locker.getStore().getItem('locker.foo'), 'bar');
+    t.is(t.context.locker.getStore().length, 1);
 });
 
 test('it should put multiple items into storage when passing an object', t => {
     t.context.locker.put({ foo: 'bar', baz: 'bob' });
 
-    t.is(t.context.locker.getDriver().getItem('locker.foo'), 'bar');
-    t.is(t.context.locker.getDriver().getItem('locker.baz'), 'bob');
-    t.is(t.context.locker.getDriver().length, 2);
+    t.is(t.context.locker.getStore().getItem('locker.foo'), 'bar');
+    t.is(t.context.locker.getStore().getItem('locker.baz'), 'bob');
+    t.is(t.context.locker.getStore().length, 2);
 });
 
 test('it should add an item to storage when passing a function as key', t => {
@@ -45,8 +45,8 @@ test('it should add an item to storage when passing a function as key', t => {
         return 'foo';
     }, 'bar');
 
-    t.is(t.context.locker.getDriver().getItem('locker.foo'), 'bar');
-    t.is(t.context.locker.getDriver().length, 1);
+    t.is(t.context.locker.getStore().getItem('locker.foo'), 'bar');
+    t.is(t.context.locker.getStore().length, 1);
 });
 
 test('it should add an item to storage when passing a function as value', t => {
@@ -55,9 +55,9 @@ test('it should add an item to storage when passing a function as value', t => {
         return { baz: 'bob' };
     });
 
-    t.is(t.context.locker.getDriver().getItem('locker.foo'), 'bar');
-    t.deepEqual(t.context.locker.getDriver().getItem('locker.bar'), { baz: 'bob' });
-    t.is(t.context.locker.getDriver().length, 2);
+    t.is(t.context.locker.getStore().getItem('locker.foo'), 'bar');
+    t.deepEqual(t.context.locker.getStore().getItem('locker.bar'), { baz: 'bob' });
+    t.is(t.context.locker.getStore().length, 2);
 });
 
 test('it should forget an item', t => {
@@ -66,7 +66,7 @@ test('it should forget an item', t => {
     t.context.locker.put('fred', 'jim');
 
     t.context.locker.forget('baz');
-    t.is(t.context.locker.getDriver().length, 2);
+    t.is(t.context.locker.getStore().length, 2);
 });
 
 test('it should forget multiple items', t => {
@@ -75,7 +75,7 @@ test('it should forget multiple items', t => {
     t.context.locker.put('fred', 'jim');
 
     t.context.locker.forget(['foo', 'baz']);
-    t.is(t.context.locker.getDriver().length, 1);
+    t.is(t.context.locker.getStore().length, 1);
 });
 
 test('it should set the driver', t => {

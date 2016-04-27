@@ -20,7 +20,7 @@
     "lint": "eslint src test",
     "docs": "jsdoc --configure .jsdoc.json --verbose",
     "docs:open": "npm run docs && open docs/$npm_package_name/$npm_package_version/index.html",
-    "gh-pages": "github-pages -r tymondesigns/locker",
+    "gh-pages": "npm run docs && github-pages -r tymondesigns/locker ./docs/$npm_package_name/$npm_package_version",
     "prepublish": "npm run build",
     "release": "NODE_ENV=production npm run build && npm test && git add -A && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish"
   },
@@ -83,8 +83,5 @@
       "babel-core/register"
     ],
     "babel": "inherit"
-  },
-  "github-pages": {
-    "src": "./docs/$npm_package_name/$npm_package_version"
   }
 }
