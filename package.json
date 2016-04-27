@@ -5,7 +5,7 @@
   "version": "0.0.1",
   "description": "A Fluent Storage API",
   "main": "dist/locker.js",
-  "jsnext:main": "src/locker.js",
+  "jsnext:main": "src/Locker.js",
   "minified:main": "dist/locker.min.js",
   "scripts": {
     "clean": "rimraf dist/",
