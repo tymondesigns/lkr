@@ -60,6 +60,14 @@ test('it should add an item to storage when passing a function as value', t => {
     t.is(t.context.locker.getStore().length, 2);
 });
 
+test('it should get multiple items', t => {
+    t.context.locker.put('foo', 'bar');
+    t.context.locker.put('baz', 'bob');
+    t.context.locker.put('fred', 'jim');
+
+    t.deepEqual({ foo: 'bar', fred: 'jim' }, t.context.locker.get(['foo', 'fred']));
+});
+
 test('it should forget an item', t => {
     t.context.locker.put('foo', 'bar');
     t.context.locker.put('baz', 'bob');

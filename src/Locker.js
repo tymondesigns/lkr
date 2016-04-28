@@ -211,6 +211,32 @@ class Locker {
     }
 
     /**
+     * Retrieve the specified item from storage and then remove it
+     *
+     * @param  {String|Array}  key  The key to pull from storage
+     * @param  {Mixed}         def  The default value if it does not exist
+     *
+     * @return {Mixed}
+     */
+    pull (key, def) {
+        let value = this.get(key, def);
+        this.forget(key);
+
+        return value;
+    }
+
+    /**
+     * Empty the current storage driver completely. careful now.
+     *
+     * @return {Locker}
+     */
+    empty () {
+        this._store.clear();
+
+        return this;
+    }
+
+    /**
      * Set the driver by key.
      *
      * @param   {String}  driver  The driver key
