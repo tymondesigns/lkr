@@ -12,4 +12,9 @@ for (let type of types) {
     check[`is${type}`] = (self => elem => getType(elem) === self)(type);
 }
 
+/**
+ * Check if we are in a NodeJS environment
+ */
+check.envNode = (self => elem => typeof process === 'object' && getType(elem) === self)(process);
+
 export default check;

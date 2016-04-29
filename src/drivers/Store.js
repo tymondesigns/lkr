@@ -93,6 +93,20 @@ class Store {
     }
 
     /**
+     * Iterate through the items in storage and execute the callback.
+     *
+     * @param   {Function}  callback     The callback function
+     * @param   {Object}    thisContext  The context of this keyword
+     *
+     * @return  {void}
+     */
+    forEach (callback, thisContext = this) {
+        for (let item in this.driver) {
+            callback.call(thisContext, this.driver[item], item);
+        }
+    }
+
+    /**
      * Determine whether the storage driver is supported.
      *
      * @return  {Boolean}

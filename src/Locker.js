@@ -226,7 +226,43 @@ class Locker {
     }
 
     /**
-     * Empty the current storage driver completely. careful now.
+     * Get all the items in storage within the currently set namespace/driver.
+     *
+     * @return  {Object}
+     */
+    all () {
+        let items = {};
+        this._store.forEach((val, key) => {
+            if (this.getNamespace()) {
+                let prefix = this.getNamespace() + this.getSeparator();
+                if (key.indexOf(prefix) === 0) key = key.substring(prefix.length);
+            }
+            if (this.has(key)) items[key] = this.get(key);
+        }, this);
+
+        return items;
+    }
+
+    /**
+     * Get the storage keys as an array.
+     *
+     * @return {Array}
+     */
+    keys () {
+        return Object.keys(this.all());
+    }
+
+    /**
+     * Remove all items set within the current namespace/driver.
+     *
+     * @return {Locker}
+     */
+    clean () {
+        return this.forget(this.keys());
+    }
+
+    /**
+     * Empty the current storage driver completely. Careful now.
      *
      * @return {Locker}
      */
@@ -234,6 +270,15 @@ class Locker {
         this._store.clear();
 
         return this;
+    }
+
+    /**
+     * Get the total number of items within the current namespace/driver.
+     *
+     * @return {Integer}
+     */
+    count () {
+        return this.keys().length;
     }
 
     /**

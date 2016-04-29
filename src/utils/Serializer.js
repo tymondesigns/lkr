@@ -6,7 +6,7 @@
 class Serializer {
 
     /**
-     * Serialize the provided data
+     * Serialize the provided data.
      *
      * @param   {Mixed}  data  The data to serialize
      *
@@ -21,7 +21,7 @@ class Serializer {
     }
 
     /**
-     * Unserialize the provided data
+     * Unserialize the provided data.
      *
      * @param   {String}  payload  The payload to unserialize
      *
