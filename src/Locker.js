@@ -244,6 +244,21 @@ class Locker {
     }
 
     /**
+     * Iterate through the items within the current namespace/driver and execute the callback.
+     *
+     * @param   {Function}  callback     The callback function
+     * @param   {Object}    thisContext  The context of this keyword
+     *
+     * @return  {void}
+     */
+    each (callback, thisContext = this) {
+        let items = this.all();
+        for (let item in items) {
+            callback.call(thisContext, items[item], item);
+        }
+    }
+
+    /**
      * Get the storage keys as an array.
      *
      * @return {Array}
