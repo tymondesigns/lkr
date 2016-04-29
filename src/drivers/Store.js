@@ -95,8 +95,8 @@ class Store {
     /**
      * Iterate through the items in storage and execute the callback.
      *
-     * @param   {Function}  callback     The callback function
-     * @param   {Object}    thisContext  The context of this keyword
+     * @param   {Function}  callback            The callback function
+     * @param   {Object}    [thisContext=this]  The context of this keyword
      *
      * @return  {void}
      */
@@ -112,8 +112,12 @@ class Store {
      * @return  {Boolean}
      */
     isSupported () {
+        let l = 'l';
         try {
-            return !! typeof this.driver !== 'undefined' && ('setItem' in this.driver) && this.driver.setItem;
+            this.driver.setItem(l, l);
+            this.driver.removeItem(l);
+
+            return true;
         } catch (e) {
             return false;
         }

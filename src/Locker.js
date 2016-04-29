@@ -12,7 +12,11 @@ class Locker {
     /**
      * Create a Locker instance.
      *
-     * @param   {Object}  options  The configuration options
+     * @param   {Object}  options            The configuration options
+     * @param   {Object}  options.drivers    The storage drivers
+     * @param   {String}  options.driver     The default storage driver
+     * @param   {String}  options.namespace  The namespace
+     * @param   {String}  options.separator  The string that separates the namespace and key
      *
      * @return  {void}
      */
@@ -81,11 +85,20 @@ class Locker {
     }
 
     /**
+     * Get the store instance.
+     *
+     * @return {Store}
+     */
+    get store () {
+        return this._store;
+    }
+
+    /**
      * Add a new item to storage even if it already exists.
      *
-     * @param  {String|Function|Object}  key  The key to add
-     * @param  {Mixed}                   val  The value to add
-     * @param  {Mixed}                   def  The default to pass to function if doesn't already exist
+     * @param  {String|Function|Object}  key    The key to add
+     * @param  {Mixed}                   val    The value to add
+     * @param  {Mixed}                   [def]  The default to pass to function if doesn't already exist
      *
      * @throws {Error}  If a key or value is not provided
      *
@@ -139,9 +152,9 @@ class Locker {
     /**
      * Add an item to storage if it doesn't already exist.
      *
-     * @param  {String|Function|Object}  key    The key to add
-     * @param  {Mixed}                   value  The value to add
-     * @param  {Mixed}                   def    The default to pass to function if doesn't already exist
+     * @param  {String|Function|Object}  key      The key to add
+     * @param  {Mixed}                   value    The value to add
+     * @param  {Mixed}                   [def]    The default to pass to function if doesn't already exist
      *
      * @return {Boolean}  Whether the item was added or not
      */
@@ -158,8 +171,8 @@ class Locker {
     /**
      * Retrieve the specified item from storage.
      *
-     * @param  {String|Array|Function}  key  The key to get
-     * @param  {Mixed}                  def  The default value if it does not exist
+     * @param  {String|Array|Function}  key    The key to get
+     * @param  {Mixed}                  [def]  The default value if it does not exist
      *
      * @return {Mixed}
      */
@@ -213,8 +226,8 @@ class Locker {
     /**
      * Retrieve the specified item from storage and then remove it
      *
-     * @param  {String|Array}  key  The key to pull from storage
-     * @param  {Mixed}         def  The default value if it does not exist
+     * @param  {String|Array}  key    The key to pull from storage
+     * @param  {Mixed}         [def]  The default value if it does not exist
      *
      * @return {Mixed}
      */
@@ -233,8 +246,8 @@ class Locker {
     all () {
         let items = {};
         this._store.forEach((val, key) => {
-            if (this.getNamespace()) {
-                let prefix = this.getNamespace() + this.getSeparator();
+            if (this.opts.namespace) {
+                let prefix = this.opts.namespace + this.opts.separator;
                 if (key.indexOf(prefix) === 0) key = key.substring(prefix.length);
             }
             if (this.has(key)) items[key] = this.get(key);
@@ -246,8 +259,8 @@ class Locker {
     /**
      * Iterate through the items within the current namespace/driver and execute the callback.
      *
-     * @param   {Function}  callback     The callback function
-     * @param   {Object}    thisContext  The context of this keyword
+     * @param   {Function}  callback            The callback function
+     * @param   {Object}    [thisContext=this]  The context of this keyword
      *
      * @return  {void}
      */
@@ -327,33 +340,6 @@ class Locker {
      */
     static make (options) {
         return new Locker(options);
-    }
-
-    /**
-     * Get the storage driver instance.
-     *
-     * @return {Store}
-     */
-    getStore () {
-        return this._store;
-    }
-
-    /**
-     * Get the storage namespace.
-     *
-     * @return {String}
-     */
-    getNamespace () {
-        return this.opts.namespace;
-    }
-
-    /**
-     * Get the namespace separator.
-     *
-     * @return {String}
-     */
-    getSeparator () {
-        return this.opts.separator;
     }
 
 }
