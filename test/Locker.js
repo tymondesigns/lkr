@@ -124,6 +124,14 @@ test('it should forget multiple items', t => {
     t.is(t.context.locker.store.length, 1);
 });
 
+test('it should get all the items', t => {
+    t.context.locker.driver('session').namespace('test.namespace').put('test', 'testvalue');
+
+    // t.context.locker.driver('session').namespace('test.namespace').clean();
+
+    t.is(t.context.locker.keys().length, 0);
+});
+
 test('it should set the driver', t => {
     t.is(t.context.locker.options.driver, 'local');
 
