@@ -292,7 +292,7 @@ class Locker {
      * @return  {Locker}
      */
     driver (driver) {
-        return Locker.make(Object.assign(this.opts, { driver }));
+        return Locker.make({ ...this.opts, driver });
     }
 
     /**
@@ -303,7 +303,7 @@ class Locker {
      * @return  {Locker}
      */
     namespace (namespace) {
-        return Locker.make(Object.assign(this.opts, { namespace }));
+        return Locker.make({ ...this.opts, namespace });
     }
 
     /**

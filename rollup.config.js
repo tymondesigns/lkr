@@ -7,7 +7,7 @@ export default {
             sourceMap: true,
             exclude: 'node_modules/**',
             babelrc: false,
-            presets: ['es2015-rollup']
+            presets: ['es2015-rollup', 'stage-2']
         }),
         nodeResolve()
     ]
