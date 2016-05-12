@@ -30,15 +30,6 @@ class Locker {
         this.opts = options;
 
         /**
-         * The registered drivers
-         *
-         * @private
-         *
-         * @type  {Object}
-         */
-        this._registeredDrivers = Object.assign({}, options.drivers);
-
-        /**
          * The Store instance
          *
          * @private
@@ -46,11 +37,11 @@ class Locker {
          * @type {Store}
          */
         this._store = (driver => {
-            if (! Object.keys(this._registeredDrivers).length || ! this._registeredDrivers.hasOwnProperty(driver)) {
+            if (! Object.keys(options.drivers).length || ! options.drivers.hasOwnProperty(driver)) {
                 throw new Error(`Driver "${driver}" not available.`);
             }
 
-            let store = new Store(this._registeredDrivers[driver]);
+            let store = new Store(options.drivers[driver]);
 
             if (! store.isSupported()) {
                 throw new Error(`Driver "${driver}" not supported.`);
