@@ -30,25 +30,38 @@ class Locker {
         this.opts = options;
 
         /**
+         * @param  {String}  msg  The error message
+         *
+         * @private
+         *
+         * @throws {Error}
+         *
+         * @return {void}
+         */
+        this._err = (msg) => {
+            throw new Error(`[locker] ${msg}`);
+        };
+
+        /**
          * The Store instance
          *
          * @private
          *
          * @type {Store}
          */
-        this._store = (driver => {
+        this._store = ((driver, self) => {
             if (! Object.keys(options.drivers).length || ! options.drivers.hasOwnProperty(driver)) {
-                throw new Error(`Driver "${driver}" not available.`);
+                self._err(`Driver "${driver}" not available.`);
             }
 
             let store = new Store(options.drivers[driver]);
 
             if (! store.isSupported()) {
-                throw new Error(`Driver "${driver}" not supported.`);
+                self._err(`Driver "${driver}" not supported.`);
             }
 
             return store;
-        })(options.driver);
+        })(options.driver, this);
 
         /**
          * Get the fully qualified key.
@@ -59,11 +72,7 @@ class Locker {
          *
          * @return {String}
          */
-        this._getKey = (key) => {
-            if (! options.namespace) return key;
-
-            return `${options.namespace}${options.separator}${key}`;
-        };
+        this._getKey = (key) => options.namespace ? `${options.namespace}${options.separator}${key}` : key;
     }
 
     /**
@@ -96,7 +105,7 @@ class Locker {
      * @return {Locker}
      */
     put (key, val, def) {
-        if (check.isUndefined(key)) throw new Error('You must specify a key.');
+        if (check.isUndefined(key)) this._err('You must specify a key.');
         key = value(key);
 
         if (check.isObject(key)) {
@@ -105,7 +114,7 @@ class Locker {
                 this._store.setItem(this._getKey(item), check.isUndefined(v) ? def : v);
             }
         } else {
-            if (check.isUndefined(val)) throw new Error('You must specify a value.');
+            if (check.isUndefined(val)) this._err('You must specify a value.');
             this._store.setItem(
                 this._getKey(key),
                 value(val, this.get(key, def))

@@ -38,7 +38,7 @@ test('it should throw an error if driver is not available', t => {
 
     t.throws(() => {
         new Locker(options);
-    }, 'Driver "foo" not available.');
+    }, '[locker] Driver "foo" not available.');
 });
 
 test('it should throw an error if driver is not supported', t => {
@@ -53,7 +53,7 @@ test('it should throw an error if driver is not supported', t => {
 
     t.throws(() => {
         new Locker(options);
-    }, 'Driver "local" not supported.');
+    }, '[locker] Driver "local" not supported.');
 });
 
 test('it should put an item into storage', t => {
@@ -66,13 +66,13 @@ test('it should put an item into storage', t => {
 test('it should throw an error when attempting to put an undefined key', t => {
     t.throws(() => {
         t.context.locker.put();
-    }, 'You must specify a key.');
+    }, '[locker] You must specify a key.');
 });
 
 test('it should throw an error when attempting to put an undefined value', t => {
     t.throws(() => {
         t.context.locker.put('foo');
-    }, 'You must specify a value.');
+    }, '[locker] You must specify a value.');
 });
 
 test('it should put multiple items into storage when passing an object', t => {
