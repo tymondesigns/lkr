@@ -1,5 +1,5 @@
 
-export default function storageMock() {
+export default function storageMock () {
     let store = {};
 
     Object.defineProperties(store, {

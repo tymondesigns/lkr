@@ -10,8 +10,7 @@ const types = {
         ],
         'false': [
             'foo',
-            true,
-            new Int8Array()
+            true
         ]
     },
     'Object': {
