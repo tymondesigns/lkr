@@ -3,7 +3,7 @@ import value from './utils/value';
 import Store from './drivers/Store';
 
 /**
- * A Fluent Storage API
+ * A Fluent Storage API.
  *
  * @author Sean Tymon <tymon148@gmail.com>
  */
@@ -23,13 +23,15 @@ class Locker {
     constructor (options) {
 
         /**
-         * The configuration options
+         * The configuration options.
          *
          * @type  {Object}
          */
         this.opts = options;
 
         /**
+         * Throw a namespaced Error.
+         * 
          * @param  {String}  msg  The error message
          *
          * @private
@@ -43,7 +45,7 @@ class Locker {
         };
 
         /**
-         * The Store instance
+         * The Store instance.
          *
          * @private
          *
