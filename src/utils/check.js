@@ -6,7 +6,7 @@
  */
 const check = {},
     types = 'Array Object String Date RegExp Function Boolean Number Error Null Undefined Symbol'.split(' '),
-    getType = elem => Object.prototype.toString.call(elem).slice(8, -1);
+    getType = val => Object.prototype.toString.call(val).slice(8, -1);
 
 /**
  * Check the type of a value.
@@ -18,6 +18,7 @@ const check = {},
  */
 check.is = (type, val) => getType(val) === type;
 
+// Populate helper methods.
 for (let type of types) {
     check[`is${type}`] = (val) => check.is(type, val);
 }
