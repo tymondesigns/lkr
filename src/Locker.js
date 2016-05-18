@@ -31,7 +31,7 @@ class Locker {
 
         /**
          * Throw a namespaced Error.
-         * 
+         *
          * @param  {String}  msg  The error message
          *
          * @private

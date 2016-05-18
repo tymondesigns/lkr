@@ -5,16 +5,21 @@
  * @module check
  */
 const check = {},
-    types = 'Array Object String Date RegExp Function Boolean Number Null Undefined Symbol'.split(' '),
+    types = 'Array Object String Date RegExp Function Boolean Number Error Null Undefined Symbol'.split(' '),
     getType = elem => Object.prototype.toString.call(elem).slice(8, -1);
 
-for (let type of types) {
-    check[`is${type}`] = (self => elem => getType(elem) === self)(type);
-}
-
 /**
- * Check if we are in a NodeJS environment
+ * Check the type of a value.
+ *
+ * @param  {String}  type  The primitive type as a capitalized string.
+ * @param  {Mixed}   val   The value to check.
+ *
+ * @return {Boolean}
  */
-check.envNode = (self => elem => typeof process === 'object' && getType(elem) === self)('process');
+check.is = (type, val) => getType(val) === type;
+
+for (let type of types) {
+    check[`is${type}`] = (val) => check.is(type, val);
+}
 
 export default check;

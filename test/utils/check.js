@@ -82,6 +82,17 @@ const types = {
             void 0
         ]
     },
+    'Error': {
+        'true': [
+            new Error,
+            new TypeError,
+            new SyntaxError
+        ],
+        'false': [
+            '123',
+            void 0
+        ]
+    },
     'Null': {
         'true': [
             null
