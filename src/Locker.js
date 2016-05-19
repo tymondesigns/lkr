@@ -1,4 +1,4 @@
-import { check, value } from 'tymon';
+import { check, value } from 'chitu';
 import Store from './Store';
 
 /**

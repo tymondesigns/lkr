@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/tymondesigns/locker",
   "dependencies": {
-    "tymon": "^0.0.4"
+    "chitu": "^0.1.1"
   },
   "devDependencies": {
     "ava": "^0.14.0",
