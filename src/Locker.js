@@ -1,6 +1,5 @@
-import check from './utils/check';
-import value from './utils/value';
-import Store from './drivers/Store';
+import { check, value } from 'tymon';
+import Store from './Store';
 
 /**
  * A Fluent Storage API.

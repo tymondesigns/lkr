@@ -1,4 +1,4 @@
-import Serializer from '../utils/Serializer';
+import Serializer from './Serializer';
 
 /**
  * A decorator for a Storage implementation

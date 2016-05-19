@@ -35,6 +35,9 @@
     "url": "https://github.com/tymondesigns/locker/issues"
   },
   "homepage": "https://github.com/tymondesigns/locker",
+  "dependencies": {
+    "tymon": "^0.0.4"
+  },
   "devDependencies": {
     "ava": "^0.14.0",
     "babel": "^6.5.1",
