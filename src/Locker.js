@@ -1,4 +1,6 @@
-import { check, value } from 'chitu';
+import { type, value } from 'chitu';
+// import type from 'chitu/src/type';
+// import value from 'chitu/src/value';
 import Store from './Store';
 
 /**
@@ -106,16 +108,16 @@ class Locker {
      * @return {Locker}
      */
     put (key, val, def) {
-        if (check.isUndefined(key)) this._err('You must specify a key.');
+        if (type.isUndefined(key)) this._err('You must specify a key.');
         key = value(key);
 
-        if (check.isObject(key)) {
+        if (type.isObject(key)) {
             for (let item in key) {
                 let v = value(key[item]);
-                this._store.setItem(this._getKey(item), check.isUndefined(v) ? def : v);
+                this._store.setItem(this._getKey(item), type.isUndefined(v) ? def : v);
             }
         } else {
-            if (check.isUndefined(val)) this._err('You must specify a value.');
+            if (type.isUndefined(val)) this._err('You must specify a value.');
             this._store.setItem(
                 this._getKey(key),
                 value(val, this.get(key, def))
@@ -155,7 +157,7 @@ class Locker {
     get (key, def) {
         key = value(key);
 
-        if (check.isArray(key)) {
+        if (type.isArray(key)) {
             let items = {};
             for (let k of key) {
                 items[k] = this.get(k, def);
@@ -190,7 +192,7 @@ class Locker {
     forget (key) {
         key = value(key);
 
-        if (check.isArray(key)) {
+        if (type.isArray(key)) {
             key.map(this.forget, this);
         } else {
             this._store.removeItem(this._getKey(key));

@@ -8,6 +8,6 @@ export default {
             babelrc: false,
             presets: ['es2015-rollup', 'stage-2']
         }),
-        nodeResolve({ jsnext: true })
+        nodeResolve({ jsnext: true, main: true })
     ]
 };
