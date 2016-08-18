@@ -1,4 +1,3 @@
-// import { type, value } from 'chitu';
 import type from 'chitu/src/type';
 import value from 'chitu/src/value';
 import Store from './Store';
