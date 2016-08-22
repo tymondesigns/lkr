@@ -1,5 +1,4 @@
-import type from 'chitu/src/type';
-import value from 'chitu/src/value';
+import { type, value } from 'chitu';
 import Store from './Store';
 
 /**
