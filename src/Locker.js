@@ -55,7 +55,7 @@ class Locker {
                 self._err(`Driver "${driver}" not available.`);
             }
 
-            let store = new Store(options.drivers[driver]);
+            let store = new Store(options.drivers[driver], options.serializer);
 
             if (! store.isSupported()) {
                 self._err(`Driver "${driver}" not supported.`);

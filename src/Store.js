@@ -1,4 +1,4 @@
-import Serializer from './Serializer';
+import JSONSerializer from './Serializers/JSONSerializer';
 
 /**
  * A decorator for a Storage implementation
@@ -10,12 +10,14 @@ class Store {
     /**
      * Create a Store instance.
      *
-     * @param   {Storage}  driver  The storage driver
+     * @param   {Storage}  driver      The storage driver
+     * @param   {Object}   serializer  The serializer to use
      *
      * @return  {void}
      */
-    constructor (driver) {
+    constructor (driver, serializer) {
         this.driver = driver;
+        this.serializer = serializer || JSONSerializer;
     }
 
     /**
@@ -30,7 +32,7 @@ class Store {
      */
     setItem (key, val) {
         try {
-            this.driver.setItem(key, Serializer.serialize(val));
+            this.driver.setItem(key, this.serializer.serialize(val));
         } catch (e) {
             if (['QUOTA_EXCEEDED_ERR',
                 'NS_ERROR_DOM_QUOTA_REACHED',
@@ -52,7 +54,7 @@ class Store {
      * @return {Mixed}
      */
     getItem (key) {
-        return Serializer.unserialize(this.driver.getItem(key));
+        return this.serializer.unserialize(this.driver.getItem(key));
     }
 
     /**
