@@ -10,8 +10,8 @@ class Store {
     /**
      * Create a Store instance.
      *
-     * @param   {Storage}  driver      The storage driver
-     * @param   {Object}   serializer  The serializer to use
+     * @param   {Storage}  driver        The storage driver
+     * @param   {Object}   [serializer]  The serializer to use
      *
      * @return  {void}
      */
