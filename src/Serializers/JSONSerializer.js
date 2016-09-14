@@ -3,7 +3,7 @@
  *
  * @author Sean Tymon <tymon148@gmail.com>
  */
-class Serializer {
+class JSONSerializer {
 
     /**
      * Serialize the provided data.
@@ -37,4 +37,4 @@ class Serializer {
 
 }
 
-export default Serializer;
+export default JSONSerializer;

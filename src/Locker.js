@@ -11,11 +11,12 @@ class Locker {
     /**
      * Create a Locker instance.
      *
-     * @param   {Object}  options            The configuration options
-     * @param   {Object}  options.drivers    The storage drivers
-     * @param   {String}  options.driver     The default storage driver
-     * @param   {String}  options.namespace  The namespace
-     * @param   {String}  options.separator  The string that separates the namespace and key
+     * @param   {Object}  options               The configuration options
+     * @param   {Object}  options.drivers       The storage drivers
+     * @param   {String}  options.driver        The default storage driver
+     * @param   {String}  options.namespace     The namespace
+     * @param   {String}  options.separator     The string that separates the namespace and key
+     * @param   {Object}  [options.serializer]  The serializer to use
      *
      * @return  {void}
      */
