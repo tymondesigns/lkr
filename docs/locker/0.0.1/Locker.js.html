@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Locker.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="JSONSerializer.html">JSONSerializer</a><ul class='methods'><li data-type='method'><a href="JSONSerializer.html#.serialize">serialize</a></li><li data-type='method'><a href="JSONSerializer.html#.unserialize">unserialize</a></li></ul></li><li><a href="Locker.html">Locker</a><ul class='methods'><li data-type='method'><a href="Locker.html#.make">make</a></li><li data-type='method'><a href="Locker.html#add">add</a></li><li data-type='method'><a href="Locker.html#all">all</a></li><li data-type='method'><a href="Locker.html#clean">clean</a></li><li data-type='method'><a href="Locker.html#count">count</a></li><li data-type='method'><a href="Locker.html#driver">driver</a></li><li data-type='method'><a href="Locker.html#each">each</a></li><li data-type='method'><a href="Locker.html#empty">empty</a></li><li data-type='method'><a href="Locker.html#forget">forget</a></li><li data-type='method'><a href="Locker.html#get">get</a></li><li data-type='method'><a href="Locker.html#has">has</a></li><li data-type='method'><a href="Locker.html#keys">keys</a></li><li data-type='method'><a href="Locker.html#namespace">namespace</a></li><li data-type='method'><a href="Locker.html#pull">pull</a></li><li data-type='method'><a href="Locker.html#put">put</a></li></ul></li><li><a href="Store.html">Store</a><ul class='methods'><li data-type='method'><a href="Store.html#clear">clear</a></li><li data-type='method'><a href="Store.html#forEach">forEach</a></li><li data-type='method'><a href="Store.html#getItem">getItem</a></li><li data-type='method'><a href="Store.html#hasItem">hasItem</a></li><li data-type='method'><a href="Store.html#isSupported">isSupported</a></li><li data-type='method'><a href="Store.html#removeItem">removeItem</a></li><li data-type='method'><a href="Store.html#setItem">setItem</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Locker.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { type, value } from 'chitu';
+import Store from './Store';
+
+/**
+ * A Fluent Storage API.
+ *
+ * @author Sean Tymon &lt;tymon148@gmail.com>
+ */
+class Locker {
+
+    /**
+     * Create a Locker instance.
+     *
+     * @param   {Object}  options               The configuration options
+     * @param   {Object}  options.drivers       The storage drivers
+     * @param   {String}  options.driver        The default storage driver
+     * @param   {String}  options.namespace     The namespace
+     * @param   {String}  options.separator     The string that separates the namespace and key
+     * @param   {Object}  [options.serializer]  The serializer to use
+     *
+     * @return  {void}
+     */
+    constructor (options) {
+
+        /**
+         * The configuration options.
+         *
+         * @type  {Object}
+         */
+        this.opts = options;
+
+        /**
+         * Throw a namespaced Error.
+         *
+         * @param  {String}  msg  The error message
+         *
+         * @private
+         *
+         * @throws {Error}
+         *
+         * @return {void}
+         */
+        this._err = (msg) => {
+            throw new Error(`[locker] ${msg}`);
+        };
+
+        /**
+         * The Store instance.
+         *
+         * @private
+         *
+         * @type {Store}
+         */
+        this._store = ((driver, self) => {
+            if (! Object.keys(options.drivers).length || ! options.drivers.hasOwnProperty(driver)) {
+                self._err(`Driver "${driver}" not available.`);
+            }
+
+            let store = new Store(options.drivers[driver], options.serializer);
+
+            if (! store.isSupported()) {
+                self._err(`Driver "${driver}" not supported.`);
+            }
+
+            return store;
+        })(options.driver, this);
+
+        /**
+         * Get the fully qualified key.
+         *
+         * @private
+         *
+         * @param  {String}  key  The key
+         *
+         * @return {String}
+         */
+        this._getKey = (key) => options.namespace ? `${options.namespace}${options.separator}${key}` : key;
+    }
+
+    /**
+     * Get the configuration options.
+     *
+     * @return  {Object}
+     */
+    get options () {
+        return this.opts;
+    }
+
+    /**
+     * Get the store instance.
+     *
+     * @return {Store}
+     */
+    get store () {
+        return this._store;
+    }
+
+    /**
+     * Add a new item to storage even if it already exists.
+     *
+     * @param  {String|Function|Object}  key    The key to add
+     * @param  {Mixed}                   val    The value to add
+     * @param  {Mixed}                   [def]  The default to pass to function if doesn't already exist
+     *
+     * @throws {Error}  If a key or value is not provided
+     *
+     * @return {Locker}
+     */
+    put (key, val, def) {
+        if (type.isUndefined(key)) this._err('You must specify a key.');
+        key = value(key);
+
+        if (type.isObject(key)) {
+            for (let item in key) {
+                let v = value(key[item]);
+                this._store.setItem(this._getKey(item), type.isUndefined(v) ? def : v);
+            }
+        } else {
+            if (type.isUndefined(val)) this._err('You must specify a value.');
+            this._store.setItem(
+                this._getKey(key),
+                value(val, this.get(key, def))
+            );
+        }
+
+        return this;
+    }
+
+    /**
+     * Add an item to storage if it doesn't already exist.
+     *
+     * @param  {String|Function|Object}  key      The key to add
+     * @param  {Mixed}                   value    The value to add
+     * @param  {Mixed}                   [def]    The default to pass to function if doesn't already exist
+     *
+     * @return {Boolean}  Whether the item was added or not
+     */
+    add (key, value, def) {
+        if (! this.has(key)) {
+            this.put(key, value, def);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Retrieve the specified item from storage.
+     *
+     * @param  {String|Array|Function}  key    The key to get
+     * @param  {Mixed}                  [def]  The default value if it does not exist
+     *
+     * @return {Mixed}
+     */
+    get (key, def) {
+        key = value(key);
+
+        if (type.isArray(key)) {
+            let items = {};
+            for (let k of key) {
+                items[k] = this.get(k, def);
+            }
+
+            return items;
+        }
+
+        if (! this.has(key)) return arguments.length === 2 ? def : void 0;
+
+        return this._store.getItem(this._getKey(key));
+    }
+
+    /**
+     * Determine whether the item exists in storage.
+     *
+     * @param  {String|Function}  key  The key to remove
+     *
+     * @return {Boolean}
+     */
+    has (key) {
+        return this._store.hasItem(value(this._getKey(key)));
+    }
+
+    /**
+     * Remove specified item(s) from storage.
+     *
+     * @param  {String|Array|Function}  key  The key or array of keys to remove
+     *
+     * @return {Locker}
+     */
+    forget (key) {
+        key = value(key);
+
+        if (type.isArray(key)) {
+            key.map(this.forget, this);
+        } else {
+            this._store.removeItem(this._getKey(key));
+        }
+
+        return this;
+    }
+
+    /**
+     * Retrieve the specified item from storage and then remove it
+     *
+     * @param  {String|Array}  key    The key to pull from storage
+     * @param  {Mixed}         [def]  The default value if it does not exist
+     *
+     * @return {Mixed}
+     */
+    pull (key, def) {
+        let value = this.get(key, def);
+        this.forget(key);
+
+        return value;
+    }
+
+    /**
+     * Get all the items in storage within the currently set namespace/driver.
+     *
+     * @return  {Object}
+     */
+    all () {
+        let items = {};
+        this._store.forEach((val, key) => {
+            if (this.opts.namespace) {
+                let prefix = this.opts.namespace + this.opts.separator;
+                if (key.indexOf(prefix) === 0) key = key.substring(prefix.length);
+            }
+            if (this.has(key)) items[key] = this.get(key);
+        }, this);
+
+        return items;
+    }
+
+    /**
+     * Iterate through the items within the current namespace/driver and execute the callback.
+     *
+     * @param   {Function}  callback            The callback function
+     * @param   {Object}    [thisContext=this]  The context of this keyword
+     *
+     * @return  {void}
+     */
+    each (callback, thisContext = this) {
+        let items = this.all();
+        for (let item in items) {
+            callback.call(thisContext, items[item], item);
+        }
+    }
+
+    /**
+     * Get the storage keys as an array.
+     *
+     * @return {Array}
+     */
+    keys () {
+        return Object.keys(this.all());
+    }
+
+    /**
+     * Remove all items set within the current namespace/driver.
+     *
+     * @return {Locker}
+     */
+    clean () {
+        return this.forget(this.keys());
+    }
+
+    /**
+     * Empty the current storage driver completely. Careful now.
+     *
+     * @return {Locker}
+     */
+    empty () {
+        this._store.clear();
+
+        return this;
+    }
+
+    /**
+     * Get the total number of items within the current namespace/driver.
+     *
+     * @return {Integer}
+     */
+    count () {
+        return this.keys().length;
+    }
+
+    /**
+     * Set the driver by key.
+     *
+     * @param   {String}  driver  The driver key
+     *
+     * @return  {Locker}
+     */
+    driver (driver) {
+        return Locker.make({ ...this.opts, driver });
+    }
+
+    /**
+     * Set the namespace.
+     *
+     * @param   {String}  namespace  The namespace
+     *
+     * @return  {Locker}
+     */
+    namespace (namespace) {
+        return Locker.make({ ...this.opts, namespace });
+    }
+
+    /**
+     * Create a new instance of Locker.
+     *
+     * @param   {Object}  options  The configuration options
+     *
+     * @return  {Locker}
+     */
+    static make (options) {
+        return new Locker(options);
+    }
+
+}
+
+export default Locker;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Tue Dec 13 2016 20:49:27 GMT+0000 (GMT) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
