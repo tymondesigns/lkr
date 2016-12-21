@@ -2,4 +2,6 @@
 
 A fluent storage API
 
-> Docs coming soon
+> Usage Docs coming soon
+
+[API docs](./locker/0.0.1)
