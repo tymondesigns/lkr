@@ -16,7 +16,7 @@
     "test": "npm-run-all lint test:ava",
     "test:ava": "ava --verbose",
     "test:watch": "npm run test:ava -- --watch",
-    "test:ci": "nyc ava && nyc report --reporter=text-lcov | codecov",
+    "test:ci": "nyc ava && nyc report --reporter=lcov && codecov",
     "test:report": "nyc ava && nyc report --reporter=html && open ./coverage/index.html",
     "lint": "eslint src test",
     "docs": "jsdoc --configure .jsdoc.json --verbose",
