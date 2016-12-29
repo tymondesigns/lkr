@@ -6,10 +6,10 @@ import Store from './Store';
  *
  * @author Sean Tymon <tymon148@gmail.com>
  */
-class Locker {
+class Lkr {
 
     /**
-     * Create a Locker instance.
+     * Create a Lkr instance.
      *
      * @param   {Object}  options               The configuration options
      * @param   {Object}  options.drivers       The storage drivers
@@ -41,7 +41,7 @@ class Locker {
          * @return {void}
          */
         this._err = (msg) => {
-            throw new Error(`[locker] ${msg}`);
+            throw new Error(`[lkr] ${msg}`);
         };
 
         /**
@@ -104,7 +104,7 @@ class Locker {
      *
      * @throws {Error}  If a key or value is not provided
      *
-     * @return {Locker}
+     * @return {Lkr}
      */
     put (key, val, def) {
         if (type.isUndefined(key)) this._err('You must specify a key.');
@@ -186,7 +186,7 @@ class Locker {
      *
      * @param  {String|Array|Function}  key  The key or array of keys to remove
      *
-     * @return {Locker}
+     * @return {Lkr}
      */
     forget (key) {
         key = value(key);
@@ -260,7 +260,7 @@ class Locker {
     /**
      * Remove all items set within the current namespace/driver.
      *
-     * @return {Locker}
+     * @return {Lkr}
      */
     clean () {
         return this.forget(this.keys());
@@ -269,7 +269,7 @@ class Locker {
     /**
      * Empty the current storage driver completely. Careful now.
      *
-     * @return {Locker}
+     * @return {Lkr}
      */
     empty () {
         this._store.clear();
@@ -291,10 +291,10 @@ class Locker {
      *
      * @param   {String}  driver  The driver key
      *
-     * @return  {Locker}
+     * @return  {Lkr}
      */
     driver (driver) {
-        return Locker.make({ ...this.opts, driver });
+        return Lkr.make({ ...this.opts, driver });
     }
 
     /**
@@ -302,23 +302,23 @@ class Locker {
      *
      * @param   {String}  namespace  The namespace
      *
-     * @return  {Locker}
+     * @return  {Lkr}
      */
     namespace (namespace) {
-        return Locker.make({ ...this.opts, namespace });
+        return Lkr.make({ ...this.opts, namespace });
     }
 
     /**
-     * Create a new instance of Locker.
+     * Create a new instance of Lkr.
      *
      * @param   {Object}  options  The configuration options
      *
-     * @return  {Locker}
+     * @return  {Lkr}
      */
     static make (options) {
-        return new Locker(options);
+        return new Lkr(options);
     }
 
 }
 
-export default Locker;
+export default Lkr;

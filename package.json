@@ -1,16 +1,16 @@
 {
   "name": "lkr",
-  "amdName": "locker",
-  "globalName": "Locker",
+  "amdName": "lkr",
+  "globalName": "Lkr",
   "version": "0.0.1",
   "description": "A Fluent Storage API",
-  "main": "dist/locker.js",
-  "jsnext:main": "src/Locker.js",
-  "minified:main": "dist/locker.min.js",
+  "main": "dist/lkr.js",
+  "jsnext:main": "src/lkr.js",
+  "minified:main": "dist/lkr.min.js",
   "scripts": {
     "clean": "rimraf dist/",
     "build": "npm-run-all clean transpile minify size",
-    "transpile": "rollup -c rollup.config.js -m ${npm_package_main}.map -f umd -n $npm_package_globalName src/Locker.js -o $npm_package_main",
+    "transpile": "rollup -c rollup.config.js -m ${npm_package_main}.map -f umd -n $npm_package_globalName src/Lkr.js -o $npm_package_main",
     "minify": "uglifyjs $npm_package_main --mangle-regex=\"/^(classCallCheck|components|normalizeName|add|clean|process|collect|create|nodes|itemsOffline)$/\" --mangle-props -cm -o $npm_package_minified_main -p relative --in-source-map ${npm_package_main}.map --source-map ${npm_package_minified_main}.map --screw-ie8",
     "size": "size=$(gzip-size $npm_package_minified_main) && echo \"gzip size: $(pretty-bytes $size)\"",
     "test": "npm-run-all lint test:ava",
@@ -21,20 +21,20 @@
     "lint": "eslint src test",
     "docs": "jsdoc --configure .jsdoc.json --verbose",
     "docs:open": "npm run docs && open docs/$npm_package_name/$npm_package_version/index.html",
-    "gh-pages": "npm run docs && github-pages -r tymondesigns/locker ./docs/$npm_package_name/$npm_package_version",
+    "gh-pages": "npm run docs && github-pages -r tymondesigns/lkr ./docs/$npm_package_name/$npm_package_version",
     "prepublish": "npm run build",
     "release": "NODE_ENV=production npm run build && npm test && git add -A && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tymondesigns/locker.git"
+    "url": "https://github.com/tymondesigns/lkr.git"
   },
   "author": "Sean Tymon <tymon148@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tymondesigns/locker/issues"
+    "url": "https://github.com/tymondesigns/lkr/issues"
   },
-  "homepage": "https://github.com/tymondesigns/locker",
+  "homepage": "https://github.com/tymondesigns/lkr",
   "dependencies": {
     "chitu": "^0.2.0"
   },
