@@ -9,3 +9,21 @@ A fluent storage API
 ```bash
 $ yarn add lkr
 ```
+## Usage
+
+```js
+import Lkr from 'lkr';
+
+const locker = new Lkr({
+  drivers: {
+    local: window.localStorage,
+    session: window.sessionStorage,
+  },
+  driver: 'local',
+  namespace: 'lkr',
+  separator: '.'
+});
+
+locker.put('foo', { bar: 'baz' });
+// etc
+```
