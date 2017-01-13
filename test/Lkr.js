@@ -1,5 +1,5 @@
 import test from 'ava';
-import Lkr from '../src/Lkr';
+import { Lkr } from '../src/Lkr';
 import storageMock from './mocks/storageMock';
 
 test.beforeEach(t => {

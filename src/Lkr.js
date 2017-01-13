@@ -6,7 +6,7 @@ import Store from './Store';
  *
  * @author Sean Tymon <tymon148@gmail.com>
  */
-class Lkr {
+export class Lkr {
 
     /**
      * Create a Lkr instance.
@@ -320,5 +320,3 @@ class Lkr {
     }
 
 }
-
-export default Lkr;
