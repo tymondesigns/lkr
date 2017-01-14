@@ -8,5 +8,5 @@ export const BrowserLkr = new Lkr({
     },
     driver: 'local',
     namespace: 'lkr',
-    'separator': '.'
+    separator: '.'
 });
