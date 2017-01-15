@@ -14,7 +14,7 @@ $ yarn add lkr
 ```js
 import { Lkr, BrowserLkr as locker } from 'lkr';
 
-// this will use include localStorage / sessionStorage by default
+// this will use include browser localStorage / sessionStorage by default
 locker.put('foo', { bar: 'baz' });
 
 // Or define your own instance for use anywhere
