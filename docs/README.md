@@ -9,3 +9,25 @@ A fluent storage API
 ```bash
 $ yarn add lkr
 ```
+## Usage
+
+```js
+import { Lkr, BrowserLkr as locker } from 'lkr';
+
+// this will use include browser localStorage / sessionStorage by default
+locker.put('foo', { bar: 'baz' });
+
+// Or define your own instance for use anywhere
+const customLocker = new Lkr({
+  drivers: {
+    local: window.localStorage,
+    session: window.sessionStorage,
+  },
+  driver: 'local',
+  namespace: 'lkr',
+  separator: '.'
+});
+
+customLocker.put('foo', { bar: 'baz' });
+// etc
+```
