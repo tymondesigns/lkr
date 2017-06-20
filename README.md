@@ -12,10 +12,10 @@ $ yarn add lkr
 ## Usage
 
 ```js
-import { Lkr, BrowserLkr as locker } from 'lkr';
+import { Lkr, Locker } from 'lkr';
 
 // this will use include browser localStorage / sessionStorage by default
-locker.put('foo', { bar: 'baz' });
+Locker.put('foo', { bar: 'baz' });
 
 // Or define your own instance for use anywhere
 const customLocker = new Lkr({
