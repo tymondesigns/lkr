@@ -159,7 +159,7 @@ export class Lkr {
     if (type.isArray(key)) {
       let items = {};
       for (let k of key) {
-          items[k] = this.get(k, def);
+        items[k] = this.get(k, def);
       }
 
       return items;

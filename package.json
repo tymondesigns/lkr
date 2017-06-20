@@ -2,7 +2,7 @@
   "name": "lkr",
   "amdName": "lkr",
   "globalName": "Lkr",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "A Fluent Storage API",
   "main": "dist/lkr.js",
   "jsnext:main": "src/index.js",

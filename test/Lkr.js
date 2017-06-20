@@ -65,13 +65,13 @@ test('it should put an item into storage', t => {
 
 test('it should throw an error when attempting to put an undefined key', t => {
   t.throws(() => {
-      t.context.lkr.put();
+    t.context.lkr.put();
   }, '[lkr] You must specify a key.');
 });
 
 test('it should throw an error when attempting to put an undefined value', t => {
   t.throws(() => {
-      t.context.lkr.put('foo');
+    t.context.lkr.put('foo');
   }, '[lkr] You must specify a value.');
 });
 
@@ -85,7 +85,7 @@ test('it should put multiple items into storage when passing an object', t => {
 
 test('it should put an item into storage when passing a function as key', t => {
   t.context.lkr.put(() => {
-      return 'foo';
+    return 'foo';
   }, 'bar');
 
   t.is(t.context.lkr.store.getItem('lkr.foo'), 'bar');
@@ -95,7 +95,7 @@ test('it should put an item into storage when passing a function as key', t => {
 test('it should put an item into storage when passing a function as value', t => {
   t.context.lkr.put('foo', () => 'bar');
   t.context.lkr.put('bar', () => {
-      return { baz: 'bob' };
+    return { baz: 'bob' };
   });
 
   t.is(t.context.lkr.store.getItem('lkr.foo'), 'bar');
