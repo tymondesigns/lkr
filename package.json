@@ -2,7 +2,7 @@
   "name": "lkr",
   "amdName": "lkr",
   "globalName": "Lkr",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A Fluent Storage API",
   "main": "dist/lkr.js",
   "jsnext:main": "src/index.js",
@@ -37,7 +37,8 @@
   },
   "homepage": "https://github.com/tymondesigns/lkr",
   "dependencies": {
-    "chitu": "^0.2.0"
+    "chitu": "^0.2.0",
+    "window-or-global": "^1.0.1"
   },
   "devDependencies": {
     "ava": "^0.17.0",
