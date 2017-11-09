@@ -4,3 +4,7 @@
 /dist
 coverage
 .nyc_output
+/Contracts
+/Serializers
+/*.d.ts
+.rpt2_cache/

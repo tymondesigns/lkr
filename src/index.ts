@@ -1,7 +1,6 @@
-import { Lkr } from './Lkr';
+import Lkr from './Lkr'
 
-export * from './Lkr';
-export const Locker = new Lkr({
+const Locker = new Lkr({
   drivers: {
     local: window.localStorage,
     session: window.sessionStorage
@@ -9,4 +8,6 @@ export const Locker = new Lkr({
   driver: 'local',
   namespace: 'lkr',
   separator: '.'
-});
+})
+
+export { Lkr, Locker }

@@ -1,11 +1,13 @@
-import JSONSerializer from './Serializers/JSONSerializer';
+import JSONSerializer from './Serializers/JSONSerializer'
+import { Serializer } from './Contracts'
 
 /**
  * A decorator for a Storage implementation
- *
- * @author Sean Tymon <tymon148@gmail.com>
  */
 class Store {
+  private driver: Storage
+
+  private serializer: Serializer
 
   /**
    * Create a Store instance.
@@ -15,9 +17,9 @@ class Store {
    *
    * @return  {void}
    */
-  constructor (driver, serializer) {
-    this.driver = driver;
-    this.serializer = serializer || JSONSerializer;
+  constructor(driver: Storage, serializer?: Serializer) {
+    this.driver = driver
+    this.serializer = serializer || JSONSerializer
   }
 
   /**
@@ -30,21 +32,24 @@ class Store {
    *
    * @return {Store}
    */
-  setItem (key, val) {
+  setItem(key, val) {
     try {
-      this.driver.setItem(key, this.serializer.serialize(val));
+      this.driver.setItem(key, this.serializer.serialize(val))
     } catch (e) {
-      if (['QUOTA_EXCEEDED_ERR',
-        'NS_ERROR_DOM_QUOTA_REACHED',
-        'QuotaExceededError'].indexOf(e.name) !== -1
+      if (
+        [
+          'QUOTA_EXCEEDED_ERR',
+          'NS_ERROR_DOM_QUOTA_REACHED',
+          'QuotaExceededError'
+        ].indexOf(e.name) !== -1
       ) {
-        throw new Error('The Storage quota has been exceeded');
+        throw new Error('The Storage quota has been exceeded')
       } else {
-        throw new Error(`Could not add item with key "${key}"`);
+        throw new Error(`Could not add item with key "${key}"`)
       }
     }
 
-    return this;
+    return this
   }
 
   /**
@@ -54,8 +59,8 @@ class Store {
    *
    * @return {Mixed}
    */
-  getItem (key) {
-    return this.serializer.unserialize(this.driver.getItem(key));
+  getItem(key) {
+    return this.serializer.unserialize(this.driver.getItem(key))
   }
 
   /**
@@ -65,8 +70,8 @@ class Store {
    *
    * @return  {Boolean}
    */
-  hasItem (key) {
-    return this.driver.hasOwnProperty(key) || !! this.getItem(key);
+  hasItem(key): boolean {
+    return this.driver.hasOwnProperty(key) || !!this.getItem(key)
   }
 
   /**
@@ -76,12 +81,12 @@ class Store {
    *
    * @return  {Boolean}
    */
-  removeItem (key) {
-    if (! this.hasItem(key)) return false;
+  removeItem(key): boolean {
+    if (!this.hasItem(key)) return false
 
-    this.driver.removeItem(key);
+    this.driver.removeItem(key)
 
-    return true;
+    return true
   }
 
   /**
@@ -89,10 +94,10 @@ class Store {
    *
    * @return  {Store}
    */
-  clear () {
-    this.driver.clear();
+  clear() {
+    this.driver.clear()
 
-    return this;
+    return this
   }
 
   /**
@@ -103,9 +108,9 @@ class Store {
    *
    * @return  {void}
    */
-  forEach (callback, thisContext = this) {
+  forEach(callback: Function, thisContext = this) {
     for (let item in this.driver) {
-      callback.call(thisContext, this.driver[item], item);
+      callback.call(thisContext, this.driver[item], item)
     }
   }
 
@@ -114,15 +119,15 @@ class Store {
    *
    * @return  {Boolean}
    */
-  isSupported () {
-    let l = 'l';
+  isSupported(): boolean {
+    let l = 'l'
     try {
-      this.driver.setItem(l, l);
-      this.driver.removeItem(l);
+      this.driver.setItem(l, l)
+      this.driver.removeItem(l)
 
-      return true;
+      return true
     } catch (e) {
-      return false;
+      return false
     }
   }
 
@@ -131,10 +136,9 @@ class Store {
    *
    * @return  {Integer}
    */
-  get length () {
-    return this.driver.length;
+  get length(): number {
+    return this.driver.length
   }
-
 }
 
-export default Store;
+export default Store

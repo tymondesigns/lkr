@@ -1,12 +1,16 @@
-import { type, value } from 'chitu';
-import Store from './Store';
+import chitu from 'chitu'
+import { LkrOptions } from './Contracts'
+import Store from './Store'
+
+const { type, value } = chitu
 
 /**
  * A Fluent Storage API.
- *
- * @author Sean Tymon <tymon148@gmail.com>
  */
-export class Lkr {
+class Lkr {
+  private opts: LkrOptions
+
+  private store
 
   /**
    * Create a Lkr instance.
@@ -20,29 +24,13 @@ export class Lkr {
    *
    * @return  {void}
    */
-  constructor (options) {
-
+  constructor(options: LkrOptions) {
     /**
      * The configuration options.
      *
-     * @type  {Object}
+     * @type  {LkrOptions}
      */
-    this.opts = options;
-
-    /**
-     * Throw a namespaced Error.
-     *
-     * @param  {String}  msg  The error message
-     *
-     * @private
-     *
-     * @throws {Error}
-     *
-     * @return {void}
-     */
-    this._err = (msg) => {
-      throw new Error(`[lkr] ${msg}`);
-    };
+    this.opts = options
 
     /**
      * The Store instance.
@@ -51,48 +39,37 @@ export class Lkr {
      *
      * @type {Store}
      */
-    this._store = ((driver, self) => {
-      if (! Object.keys(options.drivers).length || ! options.drivers.hasOwnProperty(driver)) {
-        self._err(`Driver "${driver}" not available.`);
+    this.store = ((driver, self) => {
+      if (
+        !Object.keys(options.drivers).length ||
+        !options.drivers.hasOwnProperty(driver)
+      ) {
+        throw new Error(`Driver "${driver}" not available.`)
       }
 
-      let store = new Store(options.drivers[driver], options.serializer);
+      let store = new Store(options.drivers[driver], options.serializer)
 
-      if (! store.isSupported()) {
-        self._err(`Driver "${driver}" not supported.`);
+      if (!store.isSupported()) {
+        throw new Error(`Driver "${driver}" not supported.`)
       }
 
-      return store;
-    })(options.driver, this);
-
-    /**
-     * Get the fully qualified key.
-     *
-     * @private
-     *
-     * @param  {String}  key  The key
-     *
-     * @return {String}
-     */
-    this._getKey = (key) => options.namespace ? `${options.namespace}${options.separator}${key}` : key;
+      return store
+    })(options.driver, this)
   }
 
   /**
-   * Get the configuration options.
+   * Get the fully qualified key.
    *
-   * @return  {Object}
+   * @private
+   *
+   * @param  {String}  key  The key
+   *
+   * @return {String}
    */
-  get options () {
-    return this.opts;
-  }
+  private getKey(key: string) {
+    let { namespace, separator } = this.opts
 
-  /**
-   * Get the store instance.
-   *
-   * @return {Store}
-   */
-  get store () {
-    return this._store;
+    return namespace ? `${namespace}${separator}${key}` : key
   }
 
   /**
@@ -106,24 +83,21 @@ export class Lkr {
    *
    * @return {Lkr}
    */
-  put (key, val, def) {
-    if (type.isUndefined(key)) this._err('You must specify a key.');
-    key = value(key);
+  put(key, val, def?) {
+    if (type.isUndefined(key)) throw new Error('You must specify a key.')
+    key = value(key)
 
     if (type.isObject(key)) {
       for (let item in key) {
-        let v = value(key[item]);
-        this._store.setItem(this._getKey(item), type.isUndefined(v) ? def : v);
+        let v = value(key[item])
+        this.store.setItem(this.getKey(item), type.isUndefined(v) ? def : v)
       }
     } else {
-      if (type.isUndefined(val)) this._err('You must specify a value.');
-      this._store.setItem(
-        this._getKey(key),
-        value(val, this.get(key, def))
-      );
+      if (type.isUndefined(val)) throw new Error('You must specify a value.')
+      this.store.setItem(this.getKey(key), value(val, this.get(key, def)))
     }
 
-    return this;
+    return this
   }
 
   /**
@@ -135,14 +109,14 @@ export class Lkr {
    *
    * @return {Boolean}  Whether the item was added or not
    */
-  add (key, value, def) {
-    if (! this.has(key)) {
-      this.put(key, value, def);
+  add(key, value, def?): boolean {
+    if (!this.has(key)) {
+      this.put(key, value, def)
 
-      return true;
+      return true
     }
 
-    return false;
+    return false
   }
 
   /**
@@ -153,21 +127,21 @@ export class Lkr {
    *
    * @return {Mixed}
    */
-  get (key, def) {
-    key = value(key);
+  get(key, def?) {
+    key = value(key)
 
     if (type.isArray(key)) {
-      let items = {};
+      let items = {}
       for (let k of key) {
-        items[k] = this.get(k, def);
+        items[k] = this.get(k, def)
       }
 
-      return items;
+      return items
     }
 
-    if (! this.has(key)) return arguments.length === 2 ? def : void 0;
+    if (!this.has(key)) return arguments.length === 2 ? def : void 0
 
-    return this._store.getItem(this._getKey(key));
+    return this.store.getItem(this.getKey(key))
   }
 
   /**
@@ -177,8 +151,8 @@ export class Lkr {
    *
    * @return {Boolean}
    */
-  has (key) {
-    return this._store.hasItem(value(this._getKey(key)));
+  has(key): boolean {
+    return this.store.hasItem(value(this.getKey(key)))
   }
 
   /**
@@ -188,16 +162,16 @@ export class Lkr {
    *
    * @return {Lkr}
    */
-  forget (key) {
-    key = value(key);
+  forget(key) {
+    key = value(key)
 
     if (type.isArray(key)) {
-      key.map(this.forget, this);
+      key.map(this.forget, this)
     } else {
-      this._store.removeItem(this._getKey(key));
+      this.store.removeItem(this.getKey(key))
     }
 
-    return this;
+    return this
   }
 
   /**
@@ -208,11 +182,11 @@ export class Lkr {
    *
    * @return {Mixed}
    */
-  pull (key, def) {
-    let value = this.get(key, def);
-    this.forget(key);
+  pull(key, def) {
+    let value = this.get(key, def)
+    this.forget(key)
 
-    return value;
+    return value
   }
 
   /**
@@ -220,17 +194,17 @@ export class Lkr {
    *
    * @return  {Object}
    */
-  all () {
-    let items = {};
-    this._store.forEach((val, key) => {
+  all(): object {
+    let items = {}
+    this.store.forEach((val, key) => {
       if (this.opts.namespace) {
-        let prefix = this.opts.namespace + this.opts.separator;
-        if (key.indexOf(prefix) === 0) key = key.substring(prefix.length);
+        let prefix = this.opts.namespace + this.opts.separator
+        if (key.indexOf(prefix) === 0) key = key.substring(prefix.length)
       }
-      if (this.has(key)) items[key] = this.get(key);
-    }, this);
+      if (this.has(key)) items[key] = this.get(key)
+    }, this)
 
-    return items;
+    return items
   }
 
   /**
@@ -241,10 +215,10 @@ export class Lkr {
    *
    * @return  {void}
    */
-  each (callback, thisContext = this) {
-    let items = this.all();
+  each(callback: Function, thisContext = this) {
+    let items = this.all()
     for (let item in items) {
-      callback.call(thisContext, items[item], item);
+      callback.call(thisContext, items[item], item)
     }
   }
 
@@ -253,8 +227,8 @@ export class Lkr {
    *
    * @return {Array}
    */
-  keys () {
-    return Object.keys(this.all());
+  keys(): string[] {
+    return Object.keys(this.all())
   }
 
   /**
@@ -262,8 +236,8 @@ export class Lkr {
    *
    * @return {Lkr}
    */
-  clean () {
-    return this.forget(this.keys());
+  clean() {
+    return this.forget(this.keys())
   }
 
   /**
@@ -271,10 +245,10 @@ export class Lkr {
    *
    * @return {Lkr}
    */
-  empty () {
-    this._store.clear();
+  empty() {
+    this.store.clear()
 
-    return this;
+    return this
   }
 
   /**
@@ -282,8 +256,8 @@ export class Lkr {
    *
    * @return {Integer}
    */
-  count () {
-    return this.keys().length;
+  count(): number {
+    return this.keys().length
   }
 
   /**
@@ -293,8 +267,8 @@ export class Lkr {
    *
    * @return  {Lkr}
    */
-  driver (driver) {
-    return Lkr.make({ ...this.opts, driver });
+  driver(driver: string) {
+    return Lkr.make({ ...this.opts, driver })
   }
 
   /**
@@ -304,8 +278,8 @@ export class Lkr {
    *
    * @return  {Lkr}
    */
-  namespace (namespace) {
-    return Lkr.make({ ...this.opts, namespace });
+  namespace(namespace: string) {
+    return Lkr.make({ ...this.opts, namespace })
   }
 
   /**
@@ -315,8 +289,9 @@ export class Lkr {
    *
    * @return  {Lkr}
    */
-  static make (options) {
-    return new Lkr(options);
+  static make(options: LkrOptions) {
+    return new Lkr(options)
   }
-
 }
+
+export default Lkr

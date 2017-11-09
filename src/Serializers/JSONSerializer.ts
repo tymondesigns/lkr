@@ -1,10 +1,9 @@
+import { Serializer } from '../Contracts'
+
 /**
  * Serialize and Unserialize data
- *
- * @author Sean Tymon <tymon148@gmail.com>
  */
-class JSONSerializer {
-
+const JSONSerializer: Serializer = {
   /**
    * Serialize the provided data.
    *
@@ -12,13 +11,13 @@ class JSONSerializer {
    *
    * @return  {String}
    */
-  static serialize (data) {
+  serialize(data): string {
     try {
-      return JSON.stringify(data);
+      return JSON.stringify(data)
     } catch (e) {
-      return data;
+      return data
     }
-  }
+  },
 
   /**
    * Unserialize the provided data.
@@ -27,14 +26,13 @@ class JSONSerializer {
    *
    * @return  {Mixed}
    */
-  static unserialize (payload) {
+  unserialize(payload: string) {
     try {
-      return JSON.parse(payload);
+      return JSON.parse(payload)
     } catch (e) {
-      return payload;
+      return payload
     }
   }
-
 }
 
-export default JSONSerializer;
+export default JSONSerializer
