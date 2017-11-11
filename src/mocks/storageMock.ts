@@ -1,23 +1,22 @@
-
-export default function storageMock () {
-  let store = {};
+export default function storageMock() {
+  let store = {}
 
   Object.defineProperties(store, {
     setItem: {
       value: (key, value) => {
-        store[key] = value || '';
+        store[key] = value || ''
       },
       enumerable: false,
       writable: true
     },
     getItem: {
-      value: (key) => store[key],
+      value: key => store[key],
       enumerable: false,
       writable: true
     },
     removeItem: {
-      value: (key) => {
-        delete store[key];
+      value: key => {
+        delete store[key]
       },
       enumerable: false,
       writable: true
@@ -28,12 +27,12 @@ export default function storageMock () {
     },
     clear: {
       value: () => {
-        store = {};
+        store = {}
       },
       enumerable: false,
       writable: true
     }
-  });
+  })
 
-  return store;
+  return store
 }

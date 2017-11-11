@@ -8,3 +8,4 @@ coverage
 /Serializers
 /*.d.ts
 .rpt2_cache/
+/Utils

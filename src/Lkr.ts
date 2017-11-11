@@ -1,15 +1,19 @@
-import chitu from 'chitu'
+import { type, value } from './Utils'
 import { LkrOptions } from './Contracts'
 import Store from './Store'
-
-const { type, value } = chitu
 
 /**
  * A Fluent Storage API.
  */
 class Lkr {
+  /**
+   * @ype {LkrOptions}
+   */
   private opts: LkrOptions
 
+  /**
+   *
+   */
   private store
 
   /**
@@ -44,17 +48,26 @@ class Lkr {
         !Object.keys(options.drivers).length ||
         !options.drivers.hasOwnProperty(driver)
       ) {
-        throw new Error(`Driver "${driver}" not available.`)
+        throw new Error(`[lkr] Driver "${driver}" not available.`)
       }
 
       let store = new Store(options.drivers[driver], options.serializer)
 
       if (!store.isSupported()) {
-        throw new Error(`Driver "${driver}" not supported.`)
+        throw new Error(`[lkr] Driver "${driver}" not supported.`)
       }
 
       return store
     })(options.driver, this)
+  }
+
+  /**
+   * Get the options.
+   *
+   * @return {LkrOptions}
+   */
+  get options(): LkrOptions {
+    return this.opts
   }
 
   /**
@@ -84,7 +97,7 @@ class Lkr {
    * @return {Lkr}
    */
   put(key, val, def?) {
-    if (type.isUndefined(key)) throw new Error('You must specify a key.')
+    if (type.isUndefined(key)) throw new Error('[lkr] You must specify a key.')
     key = value(key)
 
     if (type.isObject(key)) {
@@ -93,7 +106,8 @@ class Lkr {
         this.store.setItem(this.getKey(item), type.isUndefined(v) ? def : v)
       }
     } else {
-      if (type.isUndefined(val)) throw new Error('You must specify a value.')
+      if (type.isUndefined(val))
+        throw new Error('[lkr] You must specify a value.')
       this.store.setItem(this.getKey(key), value(val, this.get(key, def)))
     }
 

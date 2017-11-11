@@ -1,18 +1,18 @@
 {
   "name": "lkr",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A Fluent Storage API",
   "main": "dist/lkr.js",
   "types": "index.d.ts",
   "scripts": {
     "compile": "tsc --pretty",
-    "format": "prettier --write --no-semi --single-quote \"src/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\"",
     "build:umd": "cross-env NODE_ENV=umd rollup --config",
     "build:cjs": "cross-env NODE_ENV=cjs rollup --config",
     "build": "run-p build:*",
     "clean": "rimraf dist",
-    "check": "run-s compile lint",
-    "test": "ava --verbose",
+    "check": "run-s compile lint test",
+    "test": "jest",
     "lint": "tslint -c tslint.json src/**/*.ts",
     "prebuild": "run-s format check clean",
     "prepublish": "npm run build"
@@ -31,9 +31,10 @@
     "chitu": "^0.3.0"
   },
   "devDependencies": {
-    "ava": "^0.17.0",
+    "@types/jest": "^21.1.6",
     "codecov": "^1.0.1",
     "cross-env": "^5.1.1",
+    "jest": "^21.2.1",
     "npm-run-all": "^4.1.2",
     "prettier": "^1.8.2",
     "rimraf": "^2.5.1",
@@ -43,8 +44,20 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-typescript2": "^0.8.0",
     "rollup-plugin-uglify": "^2.0.1",
+    "ts-jest": "^21.2.1",
     "tslint": "^5.8.0",
     "typescript": "^2.6.1",
     "uglify-js": "^2.6.1"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "jest": {
+    "moduleFileExtensions": ["ts", "js"],
+    "transform": {
+      "^.+\\.(ts)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testMatch": ["<rootDir>/src/**/*.spec.(ts)"]
   }
 }
