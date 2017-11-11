@@ -15,7 +15,8 @@
     "test": "jest",
     "lint": "tslint -c tslint.json src/**/*.ts",
     "prebuild": "run-s format check clean",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "coverage": "codecov"
   },
   "repository": {
     "type": "git",
@@ -58,6 +59,8 @@
     "transform": {
       "^.+\\.(ts)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testMatch": ["<rootDir>/src/**/*.spec.(ts)"]
+    "testMatch": ["<rootDir>/src/**/*.spec.(ts)"],
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   }
 }
