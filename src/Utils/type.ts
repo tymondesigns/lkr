@@ -11,10 +11,10 @@ const type: any = {},
  *
  * @return {Boolean}
  */
-type['is'] = (type: string, val) =>
+type.is = (type: string, val) =>
   Object.prototype.toString.call(val).slice(8, -1) === type
 
 // Populate helper methods.
-types.forEach(t => (type[`is${t}`] = v => type['is'](t, v)))
+types.forEach(t => (type[`is${t}`] = v => type.is(t, v)))
 
 export default type

@@ -13,7 +13,7 @@ class Store {
    * Create a Store instance.
    *
    * @param   {Storage}  driver        The storage driver
-   * @param   {Object}   [serializer]  The serializer to use
+   * @param   {Serializer}   [serializer]  The serializer to use
    *
    * @return  {void}
    */
@@ -32,7 +32,7 @@ class Store {
    *
    * @return {Store}
    */
-  setItem(key, val) {
+  setItem(key, val): Store {
     try {
       this.driver.setItem(key, this.serializer.serialize(val))
     } catch (e) {
@@ -43,9 +43,9 @@ class Store {
           'QuotaExceededError'
         ].indexOf(e.name) !== -1
       ) {
-        throw new Error('The Storage quota has been exceeded')
+        throw new Error('[lkr] The Storage quota has been exceeded')
       } else {
-        throw new Error(`Could not add item with key "${key}"`)
+        throw new Error(`[lkr] Could not add item with key "${key}"`)
       }
     }
 
@@ -59,7 +59,7 @@ class Store {
    *
    * @return {Mixed}
    */
-  getItem(key) {
+  getItem(key): any {
     return this.serializer.unserialize(this.driver.getItem(key))
   }
 
@@ -94,7 +94,7 @@ class Store {
    *
    * @return  {Store}
    */
-  clear() {
+  clear(): Store {
     this.driver.clear()
 
     return this
@@ -108,7 +108,7 @@ class Store {
    *
    * @return  {void}
    */
-  forEach(callback: Function, thisContext = this) {
+  forEach(callback: Function, thisContext = this): void {
     for (let item in this.driver) {
       callback.call(thisContext, this.driver[item], item)
     }

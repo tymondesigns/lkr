@@ -43,7 +43,7 @@ class Lkr {
      *
      * @type {Store}
      */
-    this.store = ((driver, self) => {
+    this.store = ((driver: string, self: Lkr): Store => {
       if (
         !Object.keys(options.drivers).length ||
         !options.drivers.hasOwnProperty(driver)
@@ -79,7 +79,7 @@ class Lkr {
    *
    * @return {String}
    */
-  private getKey(key: string) {
+  private getKey(key: string): string {
     let { namespace, separator } = this.opts
 
     return namespace ? `${namespace}${separator}${key}` : key
@@ -96,7 +96,7 @@ class Lkr {
    *
    * @return {Lkr}
    */
-  put(key, val, def?) {
+  put(key, val, def?): Lkr {
     if (type.isUndefined(key)) throw new Error('[lkr] You must specify a key.')
     key = value(key)
 
@@ -176,7 +176,7 @@ class Lkr {
    *
    * @return {Lkr}
    */
-  forget(key) {
+  forget(key): Lkr {
     key = value(key)
 
     if (type.isArray(key)) {
@@ -229,7 +229,7 @@ class Lkr {
    *
    * @return  {void}
    */
-  each(callback: Function, thisContext = this) {
+  each(callback: Function, thisContext = this): void {
     let items = this.all()
     for (let item in items) {
       callback.call(thisContext, items[item], item)
@@ -250,7 +250,7 @@ class Lkr {
    *
    * @return {Lkr}
    */
-  clean() {
+  clean(): Lkr {
     return this.forget(this.keys())
   }
 
@@ -259,7 +259,7 @@ class Lkr {
    *
    * @return {Lkr}
    */
-  empty() {
+  empty(): Lkr {
     this.store.clear()
 
     return this
@@ -281,7 +281,7 @@ class Lkr {
    *
    * @return  {Lkr}
    */
-  driver(driver: string) {
+  driver(driver: string): Lkr {
     return Lkr.make({ ...this.opts, driver })
   }
 
@@ -292,7 +292,7 @@ class Lkr {
    *
    * @return  {Lkr}
    */
-  namespace(namespace: string) {
+  namespace(namespace: string): Lkr {
     return Lkr.make({ ...this.opts, namespace })
   }
 
@@ -303,7 +303,7 @@ class Lkr {
    *
    * @return  {Lkr}
    */
-  static make(options: LkrOptions) {
+  static make(options: LkrOptions): Lkr {
     return new Lkr(options)
   }
 }

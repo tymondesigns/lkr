@@ -11,5 +11,5 @@ import type from './type'
  * @return  {Mixed}
  */
 export default function value(val, ...args) {
-  return type['isFunction'](val) ? val.apply(this, args) : val
+  return type.isFunction(val) ? val.apply(this, args) : val
 }
