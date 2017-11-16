@@ -1,4 +1,4 @@
 export interface Serializer {
-  serialize(data: any)
-  unserialize(payload: string)
+  serialize(data: any): string
+  unserialize(payload: string): any
 }

@@ -1,5 +1,5 @@
 import { type, value } from './Utils'
-import { LkrOptions } from './Contracts'
+import { LkrOptions, KeyType } from './Contracts'
 import Store from './Store'
 
 /**
@@ -7,41 +7,26 @@ import Store from './Store'
  */
 class Lkr {
   /**
-   * @ype {LkrOptions}
+   * The configuration options.
    */
   private opts: LkrOptions
 
   /**
-   *
+   * The Store instance.
    */
   private store
 
   /**
    * Create a Lkr instance.
-   *
-   * @param   {Object}  options               The configuration options
-   * @param   {Object}  options.drivers       The storage drivers
-   * @param   {String}  options.driver        The default storage driver
-   * @param   {String}  options.namespace     The namespace
-   * @param   {String}  options.separator     The string that separates the namespace and key
-   * @param   {Object}  [options.serializer]  The serializer to use
-   *
-   * @return  {void}
    */
   constructor(options: LkrOptions) {
     /**
      * The configuration options.
-     *
-     * @type  {LkrOptions}
      */
     this.opts = options
 
     /**
      * The Store instance.
-     *
-     * @private
-     *
-     * @type {Store}
      */
     this.store = ((driver: string, self: Lkr): Store => {
       if (
@@ -63,8 +48,6 @@ class Lkr {
 
   /**
    * Get the options.
-   *
-   * @return {LkrOptions}
    */
   get options(): LkrOptions {
     return this.opts
@@ -72,12 +55,6 @@ class Lkr {
 
   /**
    * Get the fully qualified key.
-   *
-   * @private
-   *
-   * @param  {String}  key  The key
-   *
-   * @return {String}
    */
   private getKey(key: string): string {
     let { namespace, separator } = this.opts
@@ -87,16 +64,8 @@ class Lkr {
 
   /**
    * Add a new item to storage even if it already exists.
-   *
-   * @param  {String|Function|Object}  key    The key to add
-   * @param  {Mixed}                   val    The value to add
-   * @param  {Mixed}                   [def]  The default to pass to function if doesn't already exist
-   *
-   * @throws {Error}  If a key or value is not provided
-   *
-   * @return {Lkr}
    */
-  put(key, val, def?): Lkr {
+  put(key, val: any, def?: any): Lkr {
     if (type.isUndefined(key)) throw new Error('[lkr] You must specify a key.')
     key = value(key)
 
@@ -116,14 +85,8 @@ class Lkr {
 
   /**
    * Add an item to storage if it doesn't already exist.
-   *
-   * @param  {String|Function|Object}  key      The key to add
-   * @param  {Mixed}                   value    The value to add
-   * @param  {Mixed}                   [def]    The default to pass to function if doesn't already exist
-   *
-   * @return {Boolean}  Whether the item was added or not
    */
-  add(key, value, def?): boolean {
+  add(key, value: any, def?: any): boolean {
     if (!this.has(key)) {
       this.put(key, value, def)
 
@@ -135,13 +98,8 @@ class Lkr {
 
   /**
    * Retrieve the specified item from storage.
-   *
-   * @param  {String|Array|Function}  key    The key to get
-   * @param  {Mixed}                  [def]  The default value if it does not exist
-   *
-   * @return {Mixed}
    */
-  get(key, def?) {
+  get(key, def?: any) {
     key = value(key)
 
     if (type.isArray(key)) {
@@ -160,10 +118,6 @@ class Lkr {
 
   /**
    * Determine whether the item exists in storage.
-   *
-   * @param  {String|Function}  key  The key to remove
-   *
-   * @return {Boolean}
    */
   has(key): boolean {
     return this.store.hasItem(value(this.getKey(key)))
@@ -171,10 +125,6 @@ class Lkr {
 
   /**
    * Remove specified item(s) from storage.
-   *
-   * @param  {String|Array|Function}  key  The key or array of keys to remove
-   *
-   * @return {Lkr}
    */
   forget(key): Lkr {
     key = value(key)
@@ -190,13 +140,8 @@ class Lkr {
 
   /**
    * Retrieve the specified item from storage and then remove it
-   *
-   * @param  {String|Array}  key    The key to pull from storage
-   * @param  {Mixed}         [def]  The default value if it does not exist
-   *
-   * @return {Mixed}
    */
-  pull(key, def) {
+  pull(key, def?) {
     let value = this.get(key, def)
     this.forget(key)
 
@@ -205,8 +150,6 @@ class Lkr {
 
   /**
    * Get all the items in storage within the currently set namespace/driver.
-   *
-   * @return  {Object}
    */
   all(): object {
     let items = {}
@@ -223,11 +166,6 @@ class Lkr {
 
   /**
    * Iterate through the items within the current namespace/driver and execute the callback.
-   *
-   * @param   {Function}  callback            The callback function
-   * @param   {Object}    [thisContext=this]  The context of this keyword
-   *
-   * @return  {void}
    */
   each(callback: Function, thisContext = this): void {
     let items = this.all()
@@ -238,8 +176,6 @@ class Lkr {
 
   /**
    * Get the storage keys as an array.
-   *
-   * @return {Array}
    */
   keys(): string[] {
     return Object.keys(this.all())
@@ -247,8 +183,6 @@ class Lkr {
 
   /**
    * Remove all items set within the current namespace/driver.
-   *
-   * @return {Lkr}
    */
   clean(): Lkr {
     return this.forget(this.keys())
@@ -256,8 +190,6 @@ class Lkr {
 
   /**
    * Empty the current storage driver completely. Careful now.
-   *
-   * @return {Lkr}
    */
   empty(): Lkr {
     this.store.clear()
@@ -267,8 +199,6 @@ class Lkr {
 
   /**
    * Get the total number of items within the current namespace/driver.
-   *
-   * @return {Integer}
    */
   count(): number {
     return this.keys().length
@@ -276,10 +206,6 @@ class Lkr {
 
   /**
    * Set the driver by key.
-   *
-   * @param   {String}  driver  The driver key
-   *
-   * @return  {Lkr}
    */
   driver(driver: string): Lkr {
     return Lkr.make({ ...this.opts, driver })
@@ -287,10 +213,6 @@ class Lkr {
 
   /**
    * Set the namespace.
-   *
-   * @param   {String}  namespace  The namespace
-   *
-   * @return  {Lkr}
    */
   namespace(namespace: string): Lkr {
     return Lkr.make({ ...this.opts, namespace })
@@ -298,10 +220,6 @@ class Lkr {
 
   /**
    * Create a new instance of Lkr.
-   *
-   * @param   {Object}  options  The configuration options
-   *
-   * @return  {Lkr}
    */
   static make(options: LkrOptions): Lkr {
     return new Lkr(options)

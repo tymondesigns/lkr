@@ -52,15 +52,11 @@ describe('Lkr', () => {
   })
 
   test('it should throw an error when attempting to put an undefined key', () => {
-    expect(() => {
-      lkr.put()
-    }).toThrowError('[lkr] You must specify a key.')
+    expect(() => lkr.put()).toThrowError('[lkr] You must specify a key.')
   })
 
   test('it should throw an error when attempting to put an undefined value', () => {
-    expect(() => {
-      lkr.put('foo')
-    }).toThrowError('[lkr] You must specify a value.')
+    expect(() => lkr.put('foo')).toThrowError('[lkr] You must specify a value.')
   })
 
   test('it should put multiple items into storage when passing an object', () => {
@@ -155,7 +151,7 @@ describe('Lkr', () => {
     expect(lkr.store.length).toBe(1)
   })
 
-  test('it should get all the items', () => {
+  test('it should clean the namespace', () => {
     lkr
       .driver('session')
       .namespace('test.namespace')
@@ -174,5 +170,12 @@ describe('Lkr', () => {
 
     let l = lkr.driver('session')
     expect(l.options.driver).toBe('session')
+  })
+
+  test('it should set the namespace', () => {
+    expect(lkr.options.namespace).toBe('lkr')
+
+    let l = lkr.namespace('myApp')
+    expect(l.options.namespace).toBe('myApp')
   })
 })

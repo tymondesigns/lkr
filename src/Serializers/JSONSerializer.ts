@@ -6,12 +6,8 @@ import { Serializer } from '../Contracts'
 const JSONSerializer: Serializer = {
   /**
    * Serialize the provided data.
-   *
-   * @param   {Mixed}  data  The data to serialize
-   *
-   * @return  {String}
    */
-  serialize(data): string {
+  serialize(data: any): string {
     try {
       return JSON.stringify(data)
     } catch (e) {
@@ -21,12 +17,8 @@ const JSONSerializer: Serializer = {
 
   /**
    * Unserialize the provided data.
-   *
-   * @param   {String}  payload  The payload to unserialize
-   *
-   * @return  {Mixed}
    */
-  unserialize(payload: string) {
+  unserialize(payload: string): any {
     try {
       return JSON.parse(payload)
     } catch (e) {

@@ -7,7 +7,7 @@ import filesize from 'rollup-plugin-filesize'
 const format = process.env.NODE_ENV
 const isUmd = format === 'umd'
 
-const getFileName = (file) => `${file}${isUmd ? '.min' : ''}.js`;
+const getFileName = file => `${file}${isUmd ? '.min' : ''}.js`
 
 const config = {
   name: 'lkr',
@@ -15,17 +15,17 @@ const config = {
   sourcemap: true,
   output: {
     file: getFileName('dist/lkr'),
-    format,
+    format
   },
   plugins: [
     typescript({ useTsconfigDeclarationDir: true }),
     resolve({
       jsnext: true,
       main: true,
-      browser: true,
+      browser: true
     }),
-    commonjs(),
-  ],
+    commonjs()
+  ]
 }
 
 isUmd && config.plugins.push(uglify(), filesize())
