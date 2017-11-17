@@ -5,16 +5,11 @@ const type: any = {},
 
 /**
  * Check the type of a value.
- *
- * @param  {String}  type  The primitive type as a capitalized string.
- * @param  {Mixed}   val   The value to check.
- *
- * @return {Boolean}
  */
-type.is = (type: string, val) =>
+type.is = (type: string, val: any): boolean =>
   Object.prototype.toString.call(val).slice(8, -1) === type
 
 // Populate helper methods.
-types.forEach(t => (type[`is${t}`] = v => type.is(t, v)))
+types.forEach(t => (type[`is${t}`] = (v): boolean => type.is(t, v)))
 
 export default type

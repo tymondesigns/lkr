@@ -1,5 +1,5 @@
 import { type, value } from './Utils'
-import { LkrOptions, KeyType } from './Contracts'
+import { LkrOptions } from './Contracts'
 import Store from './Store'
 
 /**
@@ -29,10 +29,7 @@ class Lkr {
      * The Store instance.
      */
     this.store = ((driver: string, self: Lkr): Store => {
-      if (
-        !Object.keys(options.drivers).length ||
-        !options.drivers.hasOwnProperty(driver)
-      ) {
+      if (!options.drivers.hasOwnProperty(driver)) {
         throw new Error(`[lkr] Driver "${driver}" not available.`)
       }
 
@@ -99,7 +96,7 @@ class Lkr {
   /**
    * Retrieve the specified item from storage.
    */
-  get(key, def?: any) {
+  get(key, def?: any): any {
     key = value(key)
 
     if (type.isArray(key)) {
@@ -141,7 +138,7 @@ class Lkr {
   /**
    * Retrieve the specified item from storage and then remove it
    */
-  pull(key, def?) {
+  pull(key, def?: any): any {
     let value = this.get(key, def)
     this.forget(key)
 
@@ -165,7 +162,8 @@ class Lkr {
   }
 
   /**
-   * Iterate through the items within the current namespace/driver and execute the callback.
+   * Iterate through the items within the current namespace/driver
+   * and execute the callback.
    */
   each(callback: Function, thisContext = this): void {
     let items = this.all()

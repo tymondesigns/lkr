@@ -26,7 +26,18 @@ describe('Lkr', () => {
       separator: '.'
     }
 
+    const options2 = {
+      drivers: {},
+      driver: 'foo',
+      namespace: 'lkr',
+      separator: '.'
+    }
+
     expect(() => new Lkr(options)).toThrowError(
+      '[lkr] Driver "foo" not available.'
+    )
+
+    expect(() => new Lkr(options2)).toThrowError(
       '[lkr] Driver "foo" not available.'
     )
   })
