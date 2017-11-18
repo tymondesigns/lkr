@@ -5,8 +5,14 @@ import { Serializer } from './Contracts'
  * A decorator for a Storage implementation
  */
 class Store {
+  /**
+   * The driver instance
+   */
   private driver: Storage
 
+  /**
+   * The Serializer instance
+   */
   private serializer: Serializer
 
   /**
@@ -51,7 +57,7 @@ class Store {
    * Determine whether the key exists in storage.
    */
   hasItem(key: string): boolean {
-    return this.driver.hasOwnProperty(key) || !!this.getItem(key)
+    return this.driver.hasOwnProperty(key)
   }
 
   /**
