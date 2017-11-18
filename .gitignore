@@ -9,3 +9,4 @@ coverage
 /*.d.ts
 .rpt2_cache/
 /Utils
+/mocks
