@@ -512,9 +512,9 @@ chitu@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/chitu/-/chitu-0.3.0.tgz#7a4f69bfd4513245ed1ce4283f78cdd991f63cff"
 
-chitu@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/chitu/-/chitu-0.4.0.tgz#d28ea0c0e8d6da33caf33cf83edf4e610c7af2d3"
+chitu@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/chitu/-/chitu-0.4.1.tgz#9ac871434fbd1e14031773f39dc3de828df25f8f"
   dependencies:
     chitu "^0.3.0"
 
