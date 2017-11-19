@@ -18,6 +18,15 @@ describe('Lkr', () => {
     lkr = new Lkr(options)
   })
 
+  test('it should instantiate the class', () => {
+    const l = new Lkr({
+      drivers: { local: localStore, session: sessionStore },
+      driver: 'local',
+      namespace: 'lkr',
+      separator: '.'
+    })
+  })
+
   test('it should throw an error if driver is not available', () => {
     const options = {
       drivers: { local: localStore, session: sessionStore },

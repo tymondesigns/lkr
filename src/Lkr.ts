@@ -1,4 +1,4 @@
-import { type, value } from './Utils'
+import { type, value } from 'chitu'
 import { LkrOptions } from './Contracts'
 import Store from './Store'
 
@@ -14,7 +14,7 @@ class Lkr {
   /**
    * The Store instance.
    */
-  private store
+  private store: Store
 
   /**
    * Create a Lkr instance.
@@ -51,12 +51,17 @@ class Lkr {
   }
 
   /**
+   * Get the prefix.
+   */
+  private get prefix(): string {
+    return `${this.opts.namespace}${this.opts.separator}`
+  }
+
+  /**
    * Get the fully qualified key.
    */
   private getKey(key: string): string {
-    let { namespace, separator } = this.opts
-
-    return namespace ? `${namespace}${separator}${key}` : key
+    return this.opts.namespace ? `${this.prefix}${key}` : key
   }
 
   /**
@@ -152,8 +157,8 @@ class Lkr {
     let items = {}
     this.store.forEach((val, key) => {
       if (this.opts.namespace) {
-        let prefix = this.opts.namespace + this.opts.separator
-        if (key.indexOf(prefix) === 0) key = key.substring(prefix.length)
+        if (key.indexOf(this.prefix) === 0)
+          key = key.substring(this.prefix.length)
       }
       if (this.has(key)) items[key] = this.get(key)
     }, this)
@@ -165,7 +170,7 @@ class Lkr {
    * Iterate through the items within the current namespace/driver
    * and execute the callback.
    */
-  each(callback: Function, thisContext = this): void {
+  each(callback: Function, thisContext: object = this): void {
     let items = this.all()
     for (let item in items) {
       callback.call(thisContext, items[item], item)

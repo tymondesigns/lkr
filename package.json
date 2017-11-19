@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/tymondesigns/lkr",
   "dependencies": {
-    "chitu": "^0.3.0"
+    "chitu": "^0.4.0"
   },
   "devDependencies": {
     "@types/jest": "^21.1.6",
@@ -57,11 +57,16 @@
     "singleQuote": true
   },
   "jest": {
-    "moduleFileExtensions": ["ts", "js"],
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
     "transform": {
       "^.+\\.(ts)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testMatch": ["<rootDir>/src/**/*.spec.(ts)"],
+    "testMatch": [
+      "<rootDir>/src/**/*.spec.ts"
+    ],
     "coverageDirectory": "./coverage/",
     "collectCoverage": true
   }

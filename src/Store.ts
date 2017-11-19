@@ -83,7 +83,7 @@ class Store {
   /**
    * Iterate through the items in storage and execute the callback.
    */
-  forEach(callback: Function, thisContext = this): void {
+  forEach(callback: Function, thisContext: object = this): void {
     for (let item in this.driver) {
       callback.call(thisContext, this.driver[item], item)
     }
