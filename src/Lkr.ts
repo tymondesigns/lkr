@@ -209,14 +209,14 @@ class Lkr {
    * Set the driver by key.
    */
   driver(driver: string): Lkr {
-    return Lkr.make(Object.assign(this.opts, { driver }))
+    return Lkr.make({ ...this.opts, driver })
   }
 
   /**
    * Set the namespace.
    */
   namespace(namespace: string): Lkr {
-    return Lkr.make(Object.assign(this.opts, { namespace }))
+    return Lkr.make({ ...this.opts, namespace })
   }
 
   /**
