@@ -6,6 +6,7 @@
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
     "removeComments": false,
+    "importHelpers": true,
     "sourceMap": true,
     "target": "ES5",
     "lib": ["es5", "es6", "dom"],

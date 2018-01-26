@@ -77,8 +77,7 @@ class Lkr {
         this.store.setItem(this.getKey(item), type.isUndefined(v) ? def : v)
       }
     } else {
-      if (type.isUndefined(val))
-        throw new Error('[lkr] You must specify a value.')
+      if (type.isUndefined(val)) throw new Error('[lkr] You must specify a value.')
       this.store.setItem(this.getKey(key), value(val, this.get(key, def)))
     }
 
@@ -157,8 +156,7 @@ class Lkr {
     let items = {}
     this.store.forEach((val, key) => {
       if (this.opts.namespace) {
-        if (key.indexOf(this.prefix) === 0)
-          key = key.substring(this.prefix.length)
+        if (key.indexOf(this.prefix) === 0) key = key.substring(this.prefix.length)
       }
       if (this.has(key)) items[key] = this.get(key)
     }, this)
@@ -211,14 +209,14 @@ class Lkr {
    * Set the driver by key.
    */
   driver(driver: string): Lkr {
-    return Lkr.make({ ...this.opts, driver })
+    return Lkr.make(Object.assign(this.opts, { driver }))
   }
 
   /**
    * Set the namespace.
    */
   namespace(namespace: string): Lkr {
-    return Lkr.make({ ...this.opts, namespace })
+    return Lkr.make(Object.assign(this.opts, { namespace }))
   }
 
   /**

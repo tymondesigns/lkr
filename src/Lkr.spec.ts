@@ -42,13 +42,8 @@ describe('Lkr', () => {
       separator: '.'
     }
 
-    expect(() => new Lkr(options)).toThrowError(
-      '[lkr] Driver "foo" not available.'
-    )
-
-    expect(() => new Lkr(options2)).toThrowError(
-      '[lkr] Driver "foo" not available.'
-    )
+    expect(() => new Lkr(options)).toThrowError('[lkr] Driver "foo" not available.')
+    expect(() => new Lkr(options2)).toThrowError('[lkr] Driver "foo" not available.')
   })
 
   test('it should throw an error if driver is not supported', () => {
@@ -59,9 +54,7 @@ describe('Lkr', () => {
       separator: '.'
     }
 
-    expect(() => new Lkr(options)).toThrowError(
-      '[lkr] Driver "local" not supported.'
-    )
+    expect(() => new Lkr(options)).toThrowError('[lkr] Driver "local" not supported.')
   })
 
   test('it should put an item into storage', () => {

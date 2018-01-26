@@ -31,11 +31,9 @@ class Store {
       this.driver.setItem(key, this.serializer.serialize(val))
     } catch (e) {
       if (
-        [
-          'QUOTA_EXCEEDED_ERR',
-          'NS_ERROR_DOM_QUOTA_REACHED',
-          'QuotaExceededError'
-        ].indexOf(e.name) !== -1
+        ['QUOTA_EXCEEDED_ERR', 'NS_ERROR_DOM_QUOTA_REACHED', 'QuotaExceededError'].indexOf(
+          e.name
+        ) !== -1
       ) {
         throw new Error('[lkr] The Storage quota has been exceeded')
       } else {
