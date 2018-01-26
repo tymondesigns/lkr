@@ -1,6 +1,6 @@
 {
   "name": "lkr",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "A Fluent Storage API",
   "main": "dist/lkr.js",
   "module": "dist/lkr.es.js",
