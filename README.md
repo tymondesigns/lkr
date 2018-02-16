@@ -1,6 +1,5 @@
 # Lkr (Locker)
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/tymondesigns/lkr.svg)](https://greenkeeper.io/)
 A fluent storage API
 
 [![Travis](https://img.shields.io/travis/tymondesigns/lkr.svg?style=flat-square)](https://travis-ci.org/tymondesigns/lkr)
