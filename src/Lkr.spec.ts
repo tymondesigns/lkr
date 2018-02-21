@@ -8,14 +8,12 @@ describe('Lkr', () => {
     localStore = storageMock()
     sessionStore = storageMock()
 
-    const options = {
+    lkr = new Lkr({
       drivers: { local: localStore, session: sessionStore },
       driver: 'local',
       namespace: 'lkr',
       separator: '.'
-    }
-
-    lkr = new Lkr(options)
+    })
   })
 
   test('it should instantiate the class', () => {
@@ -114,6 +112,35 @@ describe('Lkr', () => {
     expect(lkr.get('foo')).toBe('bar')
   })
 
+  test('it should iterate over items', () => {
+    lkr.put({
+      foo: 'bar',
+      baz: ['bob']
+    })
+
+    lkr.each((val, key) => {
+      expect(lkr.get(key)).toEqual(val)
+    })
+  })
+
+  test('it should count the items', () => {
+    lkr.put({
+      foo: 'bar',
+      baz: ['bob']
+    })
+
+    expect(lkr.count()).toEqual(2)
+  })
+
+  test('it should empty', () => {
+    lkr.put({
+      foo: 'bar',
+      baz: ['bob']
+    })
+
+    expect(lkr.empty().store.length).toEqual(0)
+  })
+
   test('it should return the specified default value when requesting an item that does not exist', () => {
     lkr.put('somethingThatDoesExist', 'exists')
 
@@ -136,6 +163,13 @@ describe('Lkr', () => {
     expect(result5).toBe('NaN')
     expect(result6).toBe(null)
     expect(result7).toBe(0)
+  })
+
+  test('it should pull an item', () => {
+    lkr.put('foo', 'bar')
+
+    expect(lkr.pull('foo')).toEqual('bar')
+    expect(lkr.get('foo')).toBeUndefined()
   })
 
   test('it should get multiple items', () => {

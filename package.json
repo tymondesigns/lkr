@@ -50,17 +50,13 @@
     "printWidth": 100
   },
   "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ],
+    "moduleFileExtensions": ["ts", "js"],
     "transform": {
       "^.+\\.(ts)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testMatch": [
-      "<rootDir>/src/**/*.spec.ts"
-    ],
+    "testMatch": ["<rootDir>/src/**/*.spec.ts"],
     "coverageDirectory": "./coverage/",
-    "collectCoverage": true
+    "collectCoverage": true,
+    "collectCoverageFrom": ["src/**/*.{ts}", "!src/mocks/**", "!src/Contracts/**", "!src/index.ts"]
   }
 }

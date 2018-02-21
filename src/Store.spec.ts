@@ -57,4 +57,30 @@ describe('Store', () => {
 
     spy.mockReset()
   })
+
+  it('should throw an error if the storage quota has been exceeded', () => {
+    const spy = jest.spyOn(driver, 'setItem').mockImplementationOnce(() => {
+      let error = new Error()
+      error.name = 'QUOTA_EXCEEDED_ERR'
+      throw error
+    })
+
+    expect(() => store.setItem('foo', 'bar')).toThrowError(
+      '[lkr] The Storage quota has been exceeded'
+    )
+
+    spy.mockReset()
+  })
+
+  it('should throw an error if their is a driver error', () => {
+    const spy = jest.spyOn(driver, 'setItem').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    expect(() => store.setItem('foo', 'bar')).toThrowError(
+      '[lkr] Could not add item with key "foo"'
+    )
+
+    spy.mockReset()
+  })
 })
