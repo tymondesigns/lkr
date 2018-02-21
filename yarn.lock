@@ -659,9 +659,9 @@ chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.0:
     escape-string-regexp "^1.0.5"
     supports-color "^4.0.0"
 
-chitu@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/chitu/-/chitu-0.8.0.tgz#2b2370b955f55e8201ebce148ce678cf1feb058e"
+chitu@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/chitu/-/chitu-0.8.1.tgz#454e197abf52c2cefc4ea7368904341f2fcf3003"
 
 chokidar@^1.6.0:
   version "1.7.0"

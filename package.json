@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/tymondesigns/lkr",
   "dependencies": {
-    "chitu": "^0.8.0"
+    "chitu": "^0.8.1"
   },
   "devDependencies": {
     "@types/jest": "^22.1.2",
