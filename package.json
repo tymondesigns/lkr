@@ -4,7 +4,7 @@
   "description": "A Fluent Storage API",
   "main": "dist/lkr.js",
   "module": "dist/lkr.es.js",
-  "types": "index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "compile": "tsc --pretty",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -35,7 +35,7 @@
     "@types/jest": "^21.1.6",
     "codecov": "^1.0.1",
     "jest": "^21.2.1",
-    "microbundle": "0.4.3",
+    "microbundle": "^0.4.4",
     "npm-run-all": "^4.1.2",
     "prettier": "^1.8.2",
     "rimraf": "^2.5.1",
